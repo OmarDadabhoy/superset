@@ -83,7 +83,7 @@ beforeAll(() => {
   );
 });
 
-const waitForRender = (props?: any) =>
+const waitForRender = (props?: Record<string, unknown>) =>
   waitFor(() => render(<AnnotationLayer {...defaultProps} {...props} />));
 
 test('renders with default props', async () => {

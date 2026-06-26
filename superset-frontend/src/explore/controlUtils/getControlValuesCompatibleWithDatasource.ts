@@ -33,7 +33,7 @@ import AdhocMetric from 'src/explore/components/controls/MetricControl/AdhocMetr
 const isControlValueCompatibleWithDatasource = (
   datasource: Dataset,
   controlState: ControlState,
-  value: any,
+  value: unknown,
 ) => {
   // A datasource might have been deleted, in which case we can't validate
   // only using the control state since it might have been hydrated with

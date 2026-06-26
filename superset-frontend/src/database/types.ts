@@ -41,11 +41,11 @@ export interface Column {
 export interface QueryExecuteResponse {
   status: string;
   query_id: string;
-  data: any[];
+  data: Record<string, unknown>[];
   columns: Column[];
   selected_columns: Column[];
   expanded_columns: Column[];
-  query: any;
+  query: Record<string, unknown>;
 }
 
 export interface QueryAdhocState {

@@ -40,7 +40,7 @@ export default function Fieldset({
   compact = false,
 }: FieldsetProps) {
   const handleChange = useCallback(
-    (fieldKey: fieldKeyType, val: any) => {
+    (fieldKey: fieldKeyType, val: unknown) => {
       onChange?.({
         ...item,
         [fieldKey]: val,

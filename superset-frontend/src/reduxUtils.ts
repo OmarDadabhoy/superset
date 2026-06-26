@@ -183,8 +183,8 @@ export function areArraysShallowEqual(arr1: unknown[], arr2: unknown[]) {
 }
 
 export function areObjectsEqual(
-  obj1: any,
-  obj2: any,
+  obj1: Record<string, unknown>,
+  obj2: Record<string, unknown>,
   opts: {
     ignoreUndefined?: boolean;
     ignoreNull?: boolean;

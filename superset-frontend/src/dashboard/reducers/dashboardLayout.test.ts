@@ -50,8 +50,8 @@ import {
 
 // Cast reducer to accept partial mock data in tests
 const testReducer = layoutReducer as (
-  state: any,
-  action: any,
+  state: Record<string, unknown>,
+  action: { type: string; [key: string]: unknown },
 ) => DashboardLayout;
 
 // eslint-disable-next-line no-restricted-globals -- TODO: Migrate from describe blocks

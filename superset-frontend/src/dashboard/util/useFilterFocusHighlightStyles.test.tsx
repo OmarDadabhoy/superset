@@ -36,7 +36,7 @@ const TestComponent = ({ chartId }: { chartId: number }) => {
 
 // eslint-disable-next-line no-restricted-globals -- TODO: Migrate from describe blocks
 describe('useFilterFocusHighlightStyles', () => {
-  const createMockStore = (customState: any = {}) =>
+  const createMockStore = (customState: Record<string, unknown> = {}) =>
     createStore(
       combineReducers(reducerIndex),
       { ...mockState, ...(initialState as any), ...customState },

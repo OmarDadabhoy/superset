@@ -428,7 +428,7 @@ export default function MenuWrapper({ data, ...rest }: MenuProps) {
   // Cycle through menu.menu to build out cleanedMenu and settings
   const cleanedMenu: MenuObjectProps[] = [];
   const settings: MenuObjectProps[] = [];
-  newMenuData.menu.forEach((item: any) => {
+  newMenuData.menu.forEach((item: Record<string, unknown>) => {
     if (!item) {
       return;
     }

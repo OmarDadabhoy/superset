@@ -37,7 +37,7 @@ const mockUpdateRolePermissions = jest.mocked(updateRolePermissions);
 
 jest.mock('src/components/MessageToasts/withToasts', () => ({
   __esModule: true,
-  default: (Component: any) => Component,
+  default: (Component: React.ComponentType) => Component,
   useToasts: () => mockToasts,
 }));
 // eslint-disable-next-line no-restricted-globals -- TODO: Migrate from describe blocks

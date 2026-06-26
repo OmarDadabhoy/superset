@@ -56,7 +56,7 @@ export const TableCatalog = ({
                 validationMethods={{ onBlur: getValidation }}
                 errorMessage={catalogError[idx]?.name}
                 placeholder={t('Enter a name for this sheet')}
-                onChange={(e: { target: { value: any } }) => {
+                onChange={(e: { target: { value: string } }) => {
                   changeMethods.onParametersChange({
                     target: {
                       type: `catalog-${idx}`,
@@ -89,7 +89,7 @@ export const TableCatalog = ({
               validationMethods={{ onBlur: getValidation }}
               errorMessage={catalogError[idx]?.url}
               placeholder={t('Paste the shareable Google Sheet URL here')}
-              onChange={(e: { target: { value: any } }) =>
+              onChange={(e: { target: { value: string } }) =>
                 changeMethods.onParametersChange({
                   target: {
                     type: `catalog-${idx}`,

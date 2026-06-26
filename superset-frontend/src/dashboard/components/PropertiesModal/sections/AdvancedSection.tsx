@@ -49,7 +49,7 @@ const StyledEditorHost = styled(EditorHost)`
 
 interface AdvancedSectionProps {
   jsonMetadata: string;
-  jsonAnnotations: any[];
+  jsonAnnotations: Record<string, unknown>[];
   validationStatus: ValidationObject;
   onJsonMetadataChange: (value: string) => void;
 }

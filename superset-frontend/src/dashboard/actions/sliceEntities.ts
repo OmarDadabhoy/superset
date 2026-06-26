@@ -81,8 +81,8 @@ function fetchAllSlicesFailed(error: string) {
   return { type: FETCH_ALL_SLICES_FAILED, payload: { error } };
 }
 
-const parseResult = (result: any[]) =>
-  result.reduce((slices, slice: any) => {
+const parseResult = (result: Record<string, unknown>[]) =>
+  result.reduce((slices, slice: Record<string, unknown>) => {
     let form_data = JSON.parse(slice.params);
     form_data = {
       ...form_data,

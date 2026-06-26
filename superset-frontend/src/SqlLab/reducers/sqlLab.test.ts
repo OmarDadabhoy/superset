@@ -314,7 +314,7 @@ describe('sqlLabReducer', () => {
   // eslint-disable-next-line no-restricted-globals -- TODO: Migrate from describe blocks
   describe('Tables', () => {
     let newState: SqlLabState;
-    let newTable: any;
+    let newTable: Record<string, unknown>;
     beforeEach(() => {
       newTable = { ...table };
       const action = {
@@ -488,8 +488,8 @@ describe('sqlLabReducer', () => {
   describe('Run Query', () => {
     const DENORMALIZED_CHANGED_ON = '2023-06-26T07:53:05.439';
     const CHANGED_ON_TIMESTAMP = 1687765985439;
-    let newState: any;
-    let query: any;
+    let newState: Record<string, unknown>;
+    let query: Record<string, unknown>;
     beforeEach(() => {
       newState = { ...initialState };
       query = {
@@ -626,8 +626,8 @@ describe('sqlLabReducer', () => {
   });
   // eslint-disable-next-line no-restricted-globals -- TODO: Migrate from describe blocks
   describe('CLEAR_INACTIVE_QUERIES', () => {
-    let newState: any;
-    let query: any;
+    let newState: Record<string, unknown>;
+    let query: Record<string, unknown>;
     beforeEach(() => {
       query = {
         id: 'abcd',

@@ -39,7 +39,7 @@ export interface TableProps<RecordType> {
     headerName?: string;
     width?: number;
     comparator?: (valueA: string | number, valueB: string | number) => number;
-    render?: (value: any) => ReactNode;
+    render?: (value: unknown) => ReactNode;
   }[];
 
   size?: GridSize;

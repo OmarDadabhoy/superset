@@ -111,7 +111,7 @@ const renderOptions = {
   useRouter: true,
 };
 
-const renderActivityTable = (props: any) =>
+const renderActivityTable = (props: Record<string, unknown>) =>
   render(<ActivityTable {...props} />, renderOptions);
 
 test('the component renders with ActivityCards', async () => {

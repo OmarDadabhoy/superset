@@ -65,7 +65,7 @@ test('always renders owners field', () => {
 
 test('renders roles field when DashboardRbac feature is enabled', () => {
   mockedIsFeatureEnabled.mockImplementation(
-    (flag: any) => flag === FeatureFlag.DashboardRbac,
+    (flag: string) => flag === FeatureFlag.DashboardRbac,
   );
 
   render(<AccessSection {...defaultProps} />);
@@ -83,7 +83,7 @@ test('does not render roles field when DashboardRbac feature is disabled', () =>
 
 test('renders tags field when TaggingSystem feature is enabled', () => {
   mockedIsFeatureEnabled.mockImplementation(
-    (flag: any) => flag === FeatureFlag.TaggingSystem,
+    (flag: string) => flag === FeatureFlag.TaggingSystem,
   );
 
   render(<AccessSection {...defaultProps} />);

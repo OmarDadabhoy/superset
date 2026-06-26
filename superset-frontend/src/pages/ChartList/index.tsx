@@ -341,7 +341,9 @@ function ChartList(props: ChartListProps) {
           row: {
             original: { id },
           },
-        }: any) =>
+        }: {
+          row: { original: Record<string, unknown> };
+        }) =>
           userId && (
             <FaveStar
               itemId={id}
@@ -366,7 +368,9 @@ function ChartList(props: ChartListProps) {
               description,
             },
           },
-        }: any) => (
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => (
           <FlexRowContainer>
             <Link to={url} data-test={`${sliceName}-list-chart-title`}>
               {certifiedBy && (
@@ -391,7 +395,9 @@ function ChartList(props: ChartListProps) {
           row: {
             original: { viz_type: vizType, form_data: formData },
           },
-        }: any) => (
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => (
           <>
             {registry.get(vizType)?.name || vizType}
             {formData && isMatrixifyEnabled(formData) && (
@@ -417,7 +423,9 @@ function ChartList(props: ChartListProps) {
               datasource_url: dsUrl,
             },
           },
-        }: any) => {
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => {
           // Extract dataset name from datasource_name_text
           // Format can be "schema.name" or just "name"
           const displayName = dsNameTxt
@@ -443,7 +451,9 @@ function ChartList(props: ChartListProps) {
           row: {
             original: { dashboards },
           },
-        }: any) => <DashboardCrossLinks dashboards={dashboards} />,
+        }: {
+          row: { original: { dashboards: unknown[] } };
+        }) => <DashboardCrossLinks dashboards={dashboards} />,
         Header: t('On dashboards'),
         accessor: 'dashboards',
         disableSortBy: true,
@@ -455,7 +465,9 @@ function ChartList(props: ChartListProps) {
           row: {
             original: { tags = [] },
           },
-        }: any) => (
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => (
           // Only show custom type tags
           <TagsList
             tags={tags.filter((tag: TagType) =>
@@ -478,7 +490,11 @@ function ChartList(props: ChartListProps) {
           row: {
             original: { owners = [] },
           },
-        }: any) => <FacePile users={owners} />,
+        }: {
+          row: {
+            original: { owners: { first_name: string; last_name: string }[] };
+          };
+        }) => <FacePile users={owners} />,
         Header: t('Owners'),
         accessor: 'owners',
         disableSortBy: true,
@@ -493,14 +509,25 @@ function ChartList(props: ChartListProps) {
               changed_by: changedBy,
             },
           },
-        }: any) => <ModifiedInfo date={changedOn} user={changedBy} />,
+        }: {
+          row: {
+            original: {
+              changed_on_delta_humanized: string;
+              changed_by: unknown;
+            };
+          };
+        }) => <ModifiedInfo date={changedOn} user={changedBy} />,
         Header: t('Last modified'),
         accessor: 'changed_on_delta_humanized',
         size: 'xl',
         id: 'changed_on_delta_humanized',
       },
       {
-        Cell: ({ row: { original } }: any) => {
+        Cell: ({
+          row: { original },
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => {
           const handleDelete = () =>
             handleChartDelete(
               original,

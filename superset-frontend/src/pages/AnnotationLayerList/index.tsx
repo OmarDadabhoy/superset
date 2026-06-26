@@ -139,7 +139,9 @@ function AnnotationLayersList({
           row: {
             original: { id, name },
           },
-        }: any) => {
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => {
           let hasHistory = true;
 
           try {
@@ -176,14 +178,25 @@ function AnnotationLayersList({
               changed_by: changedBy,
             },
           },
-        }: any) => <ModifiedInfo date={changedOn} user={changedBy} />,
+        }: {
+          row: {
+            original: {
+              changed_on_delta_humanized: string;
+              changed_by: unknown;
+            };
+          };
+        }) => <ModifiedInfo date={changedOn} user={changedBy} />,
         Header: t('Last modified'),
         accessor: 'changed_on',
         size: 'xl',
         id: 'changed_on',
       },
       {
-        Cell: ({ row: { original } }: any) => {
+        Cell: ({
+          row: { original },
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => {
           const handleEdit = () => handleAnnotationLayerEdit(original);
           const handleDelete = () => setLayerCurrentlyDeleting(original);
 

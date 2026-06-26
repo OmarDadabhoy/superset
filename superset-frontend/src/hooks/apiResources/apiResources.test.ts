@@ -30,7 +30,7 @@ const fakeApiResult = {
   name: 'fake api result',
 };
 
-const nameToAllCaps = (thing: any) => ({
+const nameToAllCaps = (thing: Record<string, unknown>) => ({
   ...thing,
   name: thing.name.toUpperCase(),
 });
@@ -123,7 +123,7 @@ describe('apiResource hooks', () => {
     });
 
     test('works while loading', () => {
-      const nameToAllCaps = (thing: any) => ({
+      const nameToAllCaps = (thing: Record<string, unknown>) => ({
         ...thing,
         name: thing.name.toUpperCase(),
       });

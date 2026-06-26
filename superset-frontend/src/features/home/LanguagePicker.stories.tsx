@@ -64,7 +64,9 @@ const mockedProps = {
   },
 };
 
-const Template = (args: any) => <LanguagePicker {...args} />;
+const Template = (args: Record<string, unknown>) => (
+  <LanguagePicker {...args} />
+);
 
 export const Default = Template.bind({});
 Default.args = mockedProps;

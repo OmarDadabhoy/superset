@@ -20,7 +20,7 @@ import { ReactNode } from 'react';
 
 export interface BaseFilter {
   Header: ReactNode;
-  initialValue: any;
+  initialValue: string | number | boolean | undefined;
 }
 export type FilterHandler = {
   clearFilter: () => void;

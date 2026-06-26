@@ -51,7 +51,7 @@ export default function useQueryPreviewState<D extends BaseQueryObject = any>({
     }
   }
 
-  function handleKeyPress(ev: any) {
+  function handleKeyPress(ev: KeyboardEvent) {
     if (currentIndex >= 0 && currentIndex < queries.length) {
       if (ev.key === 'ArrowDown' || ev.key === 'k') {
         ev.preventDefault();

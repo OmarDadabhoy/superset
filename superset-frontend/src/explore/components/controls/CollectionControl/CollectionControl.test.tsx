@@ -20,7 +20,7 @@ import { render, screen, userEvent } from 'spec/helpers/testing-library';
 import CollectionControl from '.';
 
 jest.mock('@superset-ui/chart-controls', () => ({
-  InfoTooltip: (props: any) => (
+  InfoTooltip: (props: Record<string, unknown>) => (
     <button
       onClick={props.onClick}
       type="button"
@@ -35,7 +35,7 @@ jest.mock('@superset-ui/chart-controls', () => ({
 jest.mock('..', () => ({
   __esModule: true,
   default: {
-    TestControl: (props: any) => (
+    TestControl: (props: Record<string, unknown>) => (
       <button
         type="button"
         onClick={() => props.onChange(0, 'update')}

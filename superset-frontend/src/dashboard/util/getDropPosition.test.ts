@@ -35,7 +35,7 @@ import {
 
 // Cast to accept partial mock data in tests
 const getDropPosition = getDropPositionOriginal as (
-  ...args: any[]
+  ...args: unknown[]
 ) => string | null;
 
 // eslint-disable-next-line no-restricted-globals -- TODO: Migrate from describe blocks

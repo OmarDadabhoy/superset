@@ -212,7 +212,7 @@ const TagModal: FC<TagModalProps> = ({
       'saved_query',
     );
 
-  const handleOptionChange = (resource: TaggableResources, data: any) => {
+  const handleOptionChange = (resource: TaggableResources, data: unknown) => {
     if (resource === TaggableResources.Dashboard) setDashboardsToTag(data);
     else if (resource === TaggableResources.Chart) setChartsToTag(data);
     else if (resource === TaggableResources.SavedQuery)

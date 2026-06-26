@@ -66,12 +66,15 @@ const createMockUser = (overrides = {}) => ({
   ...overrides,
 });
 
-const createMockStore = (initialState: any = {}) =>
+const createMockStore = (initialState: Record<string, unknown> = {}) =>
   configureStore({
     reducer: {
-      user: (state = initialState.user || {}, action: any) => state,
-      common: (state = initialState.common || {}, action: any) => state,
-      charts: (state = initialState.charts || {}, action: any) => state,
+      user: (state = initialState.user || {}, action: { type: string }) =>
+        state,
+      common: (state = initialState.common || {}, action: { type: string }) =>
+        state,
+      charts: (state = initialState.charts || {}, action: { type: string }) =>
+        state,
     },
     preloadedState: initialState,
     middleware: getDefaultMiddleware =>

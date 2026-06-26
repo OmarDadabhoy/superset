@@ -70,12 +70,12 @@ export const useMenuItemWithTruncation = () => {
     }: {
       tooltipText: ReactNode;
       children: ReactNode;
-      onClick?: (e: any) => void;
+      onClick?: (e: React.MouseEvent) => void;
       style?: CSSProperties;
       key: string;
       disabled?: boolean;
       danger?: boolean;
-      [key: string]: any;
+      [key: string]: unknown;
     }): ItemType => ({
       key,
       onClick,

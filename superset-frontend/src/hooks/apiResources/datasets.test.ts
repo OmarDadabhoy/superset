@@ -49,7 +49,7 @@ const mockExtension = jest.fn();
 // Helper to configure extension mock for extension path tests
 function setupExtensionMock() {
   mockGetExtensionsRegistry.mockReturnValue({
-    get: jest.fn((key: any) =>
+    get: jest.fn((key: string) =>
       key === 'load.drillby.options' ? mockExtension : undefined,
     ) as any,
   });

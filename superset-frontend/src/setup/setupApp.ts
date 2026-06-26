@@ -28,8 +28,8 @@ import setupErrorMessages from 'src/setup/setupErrorMessages';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
   interface Window {
-    $: any;
-    jQuery: any;
+    $: unknown;
+    jQuery: unknown;
   }
 }
 

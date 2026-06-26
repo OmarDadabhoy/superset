@@ -172,7 +172,7 @@ const setupMocks = (
 
   fetchMock.get(
     ENDPOINTS.LIST,
-    ({ url }: any) => {
+    ({ url }: { url: string }) => {
       if (listData) {
         return {
           result: listData,
@@ -321,7 +321,9 @@ test('switching to Reports refetches and renders only report rows', async () => 
   // API called with Report filter
   const listCalls = fetchMock.callHistory.calls('list');
   expect(listCalls.length).toBeGreaterThanOrEqual(1);
-  const reportCall = listCalls.find((c: any) => c.url.includes('value:Report'));
+  const reportCall = listCalls.find((c: { url: string }) =>
+    c.url.includes('value:Report'),
+  );
   expect(reportCall).toBeDefined();
 });
 
@@ -331,7 +333,7 @@ test('delete removes row after confirmation', async () => {
   fetchMock.removeRoute('list');
   fetchMock.get(
     ENDPOINTS.LIST,
-    (_callLog: any) => {
+    (_callLog: Record<string, unknown>) => {
       const remaining = mockAlerts.filter(a => !deletedIds.has(a.id));
       return {
         result: remaining,
@@ -346,7 +348,7 @@ test('delete removes row after confirmation', async () => {
   fetchMock.removeRoute('delete-alert');
   fetchMock.delete(
     ENDPOINTS.SINGLE,
-    ({ url }: any) => {
+    ({ url }: { url: string }) => {
       const match = url.match(/\/report\/(\d+)/);
       if (match) deletedIds.add(Number(match[1]));
       return {};

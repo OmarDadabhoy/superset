@@ -39,7 +39,7 @@ const TestSaveModal = PureSaveModal as any;
 
 jest.mock('@superset-ui/core/components/Select', () => ({
   ...jest.requireActual('@superset-ui/core/components/Select/AsyncSelect'),
-  AsyncSelect: ({ onChange }: { onChange: (val: any) => void }) => (
+  AsyncSelect: ({ onChange }: { onChange: (val: unknown) => void }) => (
     <input
       data-test="mock-async-select"
       onChange={({ target: { value } }) => onChange({ label: value, value })}
@@ -52,7 +52,7 @@ jest.mock('@superset-ui/core/components/TreeSelect', () => ({
     onChange,
     disabled,
   }: {
-    onChange: (val: any) => void;
+    onChange: (val: unknown) => void;
     disabled?: boolean;
   }) => (
     <input
@@ -90,12 +90,15 @@ const initialStore = mockStore(initialState);
 const defaultProps = {
   addDangerToast: jest.fn(),
   onHide: () => ({}),
-  actions: bindActionCreators(saveModalActions as any, (arg: any) => {
-    if (typeof arg === 'function') {
-      return arg(jest.fn);
-    }
-    return arg;
-  }),
+  actions: bindActionCreators(
+    saveModalActions as Record<string, unknown>,
+    (arg: unknown) => {
+      if (typeof arg === 'function') {
+        return arg(jest.fn);
+      }
+      return arg;
+    },
+  ),
   form_data: { datasource: '107__table', url_params: { foo: 'bar' } },
 };
 
@@ -599,7 +602,7 @@ test('onTabChange correctly updates selectedTab via forceUpdate', () => {
     ],
   };
 
-  component.setState = function (this: any, stateUpdate: any) {
+  component.setState = function (this: unknown, stateUpdate: unknown) {
     if (typeof stateUpdate === 'function') {
       this.state = { ...this.state, ...stateUpdate(this.state) };
     } else {
@@ -668,8 +671,8 @@ test('pre-populates dashboard from metadata.dashboards when dashboardId prop is 
   component.loadDashboard = jest.fn().mockResolvedValue(mockFull);
   component.loadTabs = jest.fn().mockResolvedValue([]);
 
-  const stateUpdates: any[] = [];
-  component.setState = jest.fn((update: any) => {
+  const stateUpdates: unknown[] = [];
+  component.setState = jest.fn((update: unknown) => {
     stateUpdates.push(update);
   });
 
@@ -723,8 +726,8 @@ test('skips non-editable dashboards and picks the first editable one from metada
     );
   component.loadTabs = jest.fn().mockResolvedValue([]);
 
-  const stateUpdates: any[] = [];
-  component.setState = jest.fn((update: any) => {
+  const stateUpdates: unknown[] = [];
+  component.setState = jest.fn((update: unknown) => {
     stateUpdates.push(update);
   });
 
@@ -767,8 +770,8 @@ test('does not use metadata fallback when dashboardId prop is set', async () => 
   component.loadDashboard = jest.fn().mockResolvedValue(mockFull);
   component.loadTabs = jest.fn().mockResolvedValue([]);
 
-  const stateUpdates: any[] = [];
-  component.setState = jest.fn((update: any) => {
+  const stateUpdates: unknown[] = [];
+  component.setState = jest.fn((update: unknown) => {
     stateUpdates.push(update);
   });
 
@@ -992,13 +995,15 @@ test('addChartToDashboardTab creates new row when no existing row has space', as
     json: { result: mockDashboard },
   });
 
-  let putRequestBody: any = null;
-  SupersetClient.put = jest.fn().mockImplementationOnce((request: any) => {
-    putRequestBody = request;
-    return Promise.resolve({
-      json: { result: mockDashboard },
+  let putRequestBody: Record<string, unknown> | null = null;
+  SupersetClient.put = jest
+    .fn()
+    .mockImplementationOnce((request: Record<string, unknown>) => {
+      putRequestBody = request;
+      return Promise.resolve({
+        json: { result: mockDashboard },
+      });
     });
-  });
 
   const component = new TestSaveModal(defaultProps);
 

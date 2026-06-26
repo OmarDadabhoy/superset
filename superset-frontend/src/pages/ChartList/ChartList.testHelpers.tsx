@@ -230,7 +230,7 @@ export const mockCharts = [
 ];
 
 // Shared store utilities
-export const createMockStore = (initialState: any = {}) =>
+export const createMockStore = (initialState: Record<string, unknown> = {}) =>
   configureStore({
     reducer: {
       user: (state = initialState.user || {}) => state,
@@ -245,7 +245,7 @@ export const createMockStore = (initialState: any = {}) =>
       }),
   });
 
-export const createDefaultStoreState = (user: any) => ({
+export const createDefaultStoreState = (user: Record<string, unknown>) => ({
   user,
   common: {
     conf: {
@@ -257,7 +257,11 @@ export const createDefaultStoreState = (user: any) => ({
   },
 });
 
-export const renderChartList = (user: any, props = {}, storeState = {}) => {
+export const renderChartList = (
+  user: Record<string, unknown>,
+  props = {},
+  storeState = {},
+) => {
   const defaultStoreState = createDefaultStoreState(user);
   const storeStateWithUser = {
     ...defaultStoreState,

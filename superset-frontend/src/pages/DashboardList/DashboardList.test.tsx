@@ -227,7 +227,7 @@ test('selecting Owner filter encodes rel_m_m owner in API call', async () => {
     { result: [{ value: 1, text: 'Admin User' }], count: 1 },
     { name: API_ENDPOINTS.DASHBOARD_RELATED_OWNERS },
   );
-  fetchMock.get(API_ENDPOINTS.CATCH_ALL, (callLog: any) => {
+  fetchMock.get(API_ENDPOINTS.CATCH_ALL, (callLog: Record<string, unknown>) => {
     const reqUrl =
       typeof callLog === 'string' ? callLog : callLog?.url || callLog;
     throw new Error(`[fetchMock catch-all] Unmatched GET: ${reqUrl}`);
@@ -272,7 +272,7 @@ test('selecting Modified by filter encodes rel_o_m changed_by in API call', asyn
     { result: [{ value: 1, text: 'Admin User' }], count: 1 },
     { name: API_ENDPOINTS.DASHBOARD_RELATED_CHANGED_BY },
   );
-  fetchMock.get(API_ENDPOINTS.CATCH_ALL, (callLog: any) => {
+  fetchMock.get(API_ENDPOINTS.CATCH_ALL, (callLog: Record<string, unknown>) => {
     const reqUrl =
       typeof callLog === 'string' ? callLog : callLog?.url || callLog;
     throw new Error(`[fetchMock catch-all] Unmatched GET: ${reqUrl}`);

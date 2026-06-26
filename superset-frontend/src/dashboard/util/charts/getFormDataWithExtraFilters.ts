@@ -64,12 +64,12 @@ interface CachedFormData {
     [filterId: string]: number[];
   };
   filter_data_mapping?: {
-    [filterId: string]: any[];
+    [filterId: string]: unknown[];
   };
 }
 
 export type CachedFormDataWithExtraControls = CachedFormData & {
-  [key: string]: any;
+  [key: string]: unknown;
 };
 
 const cachedFiltersByChart: Record<number, DataRecordFilters> = {};
@@ -105,8 +105,9 @@ export interface GetFormDataWithExtraFiltersArguments {
 const createFilterDataMapping = (
   dataMask: DataMaskStateWithId,
   filterIdsAppliedOnChart: string[],
-): { [filterId: string]: any[] } => {
-  const filterDataMapping: { [filterId: string]: any[] } = {};
+): { [filterId: string]: Record<string, unknown>[] } => {
+  const filterDataMapping: { [filterId: string]: Record<string, unknown>[] } =
+    {};
 
   filterIdsAppliedOnChart.forEach(filterId => {
     const filterFormData = getExtraFormData(dataMask, [filterId]);
@@ -148,7 +149,7 @@ function buildExistingColumnsSet(chart: ChartQueryPayload): Set<string> {
   }
 
   const metrics = chart.form_data?.metrics || [];
-  metrics.forEach((metric: any) => {
+  metrics.forEach((metric: Record<string, unknown>) => {
     if (typeof metric === 'string') {
       existingColumns.add(metric);
     } else if (metric && typeof metric === 'object' && 'column' in metric) {
@@ -194,8 +195,8 @@ function applyChartSpecificGroupBy(
   groupByColumns: string[],
   existingGroupBy: string[],
   xAxisColumn?: string,
-): any {
-  const groupByFormData: any = {};
+): Record<string, unknown> {
+  const groupByFormData: Record<string, unknown> = {};
 
   if (groupByColumns.length === 0) return groupByFormData;
 

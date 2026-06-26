@@ -149,7 +149,7 @@ const mockState: Partial<RootState> = {
 beforeEach(() => {
   jest.clearAllMocks();
   (getFormDataWithExtraFilters as jest.Mock).mockImplementation(
-    ({ chart }: any) => chart.form_data,
+    ({ chart }: { chart: { form_data: unknown } }) => chart.form_data,
   );
   (getAppliedFilterValues as jest.Mock).mockReturnValue({});
 });
@@ -257,7 +257,7 @@ test('getChartDataPayloads handles errors during payload generation gracefully',
   jest
     .spyOn(exploreUtils, 'buildV1ChartDataPayload')
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .mockImplementation((params: any) => {
+    .mockImplementation((params: Record<string, unknown>) => {
       if (params.formData.viz_type === 'ag-grid-table') {
         return Promise.reject(new Error('Failed to build payload'));
       }

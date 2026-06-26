@@ -159,7 +159,7 @@ export interface DrillByModalProps {
   column?: Column;
   dataset: Dataset;
   drillByConfig: Required<ContextMenuFilters>['drillBy'];
-  formData: BaseFormData & { [key: string]: any };
+  formData: BaseFormData & { [key: string]: unknown };
   onHideModal: () => void;
   canDownload: boolean;
 }

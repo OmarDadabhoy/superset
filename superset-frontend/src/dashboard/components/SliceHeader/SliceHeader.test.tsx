@@ -26,7 +26,7 @@ import SliceHeader from '.';
 
 jest.mock('src/dashboard/components/SliceHeaderControls', () => ({
   __esModule: true,
-  default: (props: any) => (
+  default: (props: Record<string, unknown>) => (
     <div
       data-test="SliceHeaderControls"
       data-slice={JSON.stringify(props.slice)}
@@ -97,7 +97,7 @@ jest.mock('src/dashboard/components/SliceHeaderControls', () => ({
 
 jest.mock('src/dashboard/components/FiltersBadge', () => ({
   __esModule: true,
-  default: (props: any) => (
+  default: (props: Record<string, unknown>) => (
     <div data-test="FiltersBadge" data-chart-id={props.chartId} />
   ),
 }));
@@ -133,7 +133,7 @@ const initialState = {
   dataMask: {},
 };
 
-const createProps = (overrides: any = {}) => ({
+const createProps = (overrides: Record<string, unknown> = {}) => ({
   filters: {}, // is in typing but not being used
   editMode: false,
   annotationQuery: { param01: 'annotationQuery' } as any,

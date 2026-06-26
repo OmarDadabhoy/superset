@@ -63,7 +63,7 @@ export const fetchUserOptions = async (
     const results = response.json?.result || [];
 
     return {
-      data: results.map((user: any) => ({
+      data: results.map((user: Record<string, unknown>) => ({
         value: user.id,
         label: getUserDisplayLabel(user),
       })),

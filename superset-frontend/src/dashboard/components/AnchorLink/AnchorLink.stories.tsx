@@ -23,7 +23,7 @@ export default {
   component: AnchorLink,
 };
 
-export const InteractiveAnchorLink = (args: any) => (
+export const InteractiveAnchorLink = (args: Record<string, unknown>) => (
   <AnchorLink id="link" {...args} />
 );
 

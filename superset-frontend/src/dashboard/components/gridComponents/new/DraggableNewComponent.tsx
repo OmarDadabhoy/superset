@@ -31,7 +31,7 @@ interface DraggableNewComponentProps {
   label: string;
   className?: string;
   meta?: Record<string, any>;
-  IconComponent?: any;
+  IconComponent?: React.ComponentType;
 }
 
 const NewComponent = styled.div`

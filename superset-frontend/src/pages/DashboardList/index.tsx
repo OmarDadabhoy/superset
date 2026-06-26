@@ -341,7 +341,9 @@ function DashboardList(props: DashboardListProps) {
           row: {
             original: { id },
           },
-        }: any) =>
+        }: {
+          row: { original: Record<string, unknown> };
+        }) =>
           user?.userId && (
             <FaveStar
               itemId={id}
@@ -366,7 +368,9 @@ function DashboardList(props: DashboardListProps) {
               description,
             },
           },
-        }: any) => (
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => (
           <FlexRowContainer>
             <Link to={url} title={dashboardTitle}>
               {certifiedBy && (
@@ -391,7 +395,9 @@ function DashboardList(props: DashboardListProps) {
           row: {
             original: { status },
           },
-        }: any) => (
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => (
           <PublishedLabel isPublished={status === DashboardStatus.PUBLISHED} />
         ),
         Header: t('Status'),
@@ -433,7 +439,11 @@ function DashboardList(props: DashboardListProps) {
           row: {
             original: { owners = [] },
           },
-        }: any) => <FacePile users={owners} />,
+        }: {
+          row: {
+            original: { owners: { first_name: string; last_name: string }[] };
+          };
+        }) => <FacePile users={owners} />,
         Header: t('Owners'),
         accessor: 'owners',
         disableSortBy: true,
@@ -447,13 +457,24 @@ function DashboardList(props: DashboardListProps) {
               changed_by: changedBy,
             },
           },
-        }: any) => <ModifiedInfo date={changedOn} user={changedBy} />,
+        }: {
+          row: {
+            original: {
+              changed_on_delta_humanized: string;
+              changed_by: unknown;
+            };
+          };
+        }) => <ModifiedInfo date={changedOn} user={changedBy} />,
         Header: t('Last modified'),
         accessor: 'changed_on_delta_humanized',
         id: 'changed_on_delta_humanized',
       },
       {
-        Cell: ({ row: { original } }: any) => {
+        Cell: ({
+          row: { original },
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => {
           const handleDelete = () =>
             handleDashboardDelete(
               original,

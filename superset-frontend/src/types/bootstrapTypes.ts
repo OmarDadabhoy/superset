@@ -175,7 +175,7 @@ export interface CommonBootstrapData {
 export interface BootstrapData {
   user?: BootstrapUser;
   common: CommonBootstrapData;
-  config?: any;
+  config?: Record<string, unknown>;
   embedded?: {
     dashboard_id: string;
     // Domains allowed to embed this dashboard. An empty/undefined list means
@@ -191,12 +191,12 @@ export interface BootstrapThemeData {
   hasCustomThemes: boolean;
 }
 
-export function isUser(user: any): user is User {
+export function isUser(user: unknown): user is User {
   return isPlainObject(user) && 'username' in user;
 }
 
 export function isUserWithPermissionsAndRoles(
-  user: any,
+  user: unknown,
 ): user is UserWithPermissionsAndRoles {
   return isUser(user) && 'permissions' in user && 'roles' in user;
 }

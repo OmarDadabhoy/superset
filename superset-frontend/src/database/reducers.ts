@@ -28,7 +28,7 @@ const initialState: QueryAdhocState = {
 
 export default function databaseReducer(
   state: QueryAdhocState = initialState,
-  action: any,
+  action: { type: string; [key: string]: unknown },
 ): QueryAdhocState {
   switch (action.type) {
     case 'SET_QUERY':

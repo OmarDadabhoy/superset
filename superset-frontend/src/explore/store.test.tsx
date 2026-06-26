@@ -335,7 +335,7 @@ test('applyDefaultFormData preserves modes when both old flags are true', () => 
 // ============================================================
 
 test('handleDeprecatedControls sets matrixify_enable on form_data when old vertical flag is true', () => {
-  const formData: any = {
+  const formData: Record<string, unknown> = {
     matrixify_enable_vertical_layout: true,
     matrixify_mode_rows: 'dimensions',
     matrixify_mode_columns: 'metrics',
@@ -349,7 +349,7 @@ test('handleDeprecatedControls sets matrixify_enable on form_data when old verti
 });
 
 test('handleDeprecatedControls resets modes when no matrixify_enable and no old flags', () => {
-  const formData: any = {
+  const formData: Record<string, unknown> = {
     matrixify_mode_rows: 'dimensions',
     matrixify_mode_columns: 'metrics',
   };
@@ -361,7 +361,7 @@ test('handleDeprecatedControls resets modes when no matrixify_enable and no old 
 });
 
 test('handleDeprecatedControls is idempotent — no-op when matrixify_enable already present', () => {
-  const formData: any = {
+  const formData: Record<string, unknown> = {
     matrixify_enable: true,
     matrixify_mode_rows: 'dimensions',
     matrixify_mode_columns: 'metrics',

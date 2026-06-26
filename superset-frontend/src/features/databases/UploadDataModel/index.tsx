@@ -563,7 +563,7 @@ const UploadDataModal: FunctionComponent<UploadDataModalProps> = ({
     }
   }, [show]);
 
-  const validateUpload = (_: any, value: string) => {
+  const validateUpload = (_: unknown, value: string) => {
     if (fileList.length === 0) {
       return Promise.reject(t('Uploading a file is required'));
     }
@@ -579,7 +579,7 @@ const UploadDataModal: FunctionComponent<UploadDataModalProps> = ({
   };
 
   const validateDatabase = (
-    _: any,
+    _: unknown,
     value: { value: number; label: string } | null | undefined,
   ) => {
     if (!value?.value) {

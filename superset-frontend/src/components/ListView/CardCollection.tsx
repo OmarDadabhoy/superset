@@ -25,7 +25,7 @@ interface CardCollectionProps {
   bulkSelectEnabled?: boolean;
   loading: boolean;
   prepareRow: TableInstance['prepareRow'];
-  renderCard?: (row: any) => ReactNode;
+  renderCard?: (row: Record<string, unknown>) => ReactNode;
   rows: TableInstance['rows'];
   showThumbnails?: boolean;
 }

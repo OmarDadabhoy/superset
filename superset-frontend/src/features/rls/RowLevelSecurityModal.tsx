@@ -110,7 +110,7 @@ export interface RowLevelSecurityModalProps {
   rule: RLSObject | null;
   addSuccessToast: (msg: string) => void;
   addDangerToast: (msg: string) => void;
-  onAdd?: (alert?: any) => void;
+  onAdd?: (alert?: Record<string, unknown>) => void;
   onHide: () => void;
   show: boolean;
 }
@@ -148,7 +148,7 @@ function RowLevelSecurityModal(props: RowLevelSecurityModalProps) {
     addDangerToast,
   );
 
-  const updateRuleState = (name: string, value: any) => {
+  const updateRuleState = (name: string, value: unknown) => {
     setCurrentRule(currentRuleData => ({
       ...currentRuleData,
       [name]: value,
@@ -256,7 +256,7 @@ function RowLevelSecurityModal(props: RowLevelSecurityModalProps) {
     currentRule.tables?.forEach(table => tables.push(table.key));
     currentRule.roles?.forEach(role => roles.push(role.key));
 
-    const data: any = { ...currentRule, tables, roles };
+    const data: Record<string, unknown> = { ...currentRule, tables, roles };
 
     if (isEditMode && currentRule.id) {
       const updateId = currentRule.id;

@@ -30,13 +30,21 @@ import SliceAdder, { SliceAdderProps, sortByComparator } from './SliceAdder';
 // Mock the Select component to avoid debounce issues
 jest.mock('@superset-ui/core', () => ({
   ...jest.requireActual('@superset-ui/core'),
-  Select: ({ value, onChange, options }: any) => (
+  Select: ({
+    value,
+    onChange,
+    options,
+  }: {
+    value: unknown;
+    onChange: (v: unknown) => void;
+    options: { label: string; value: unknown }[];
+  }) => (
     <select
       data-test="select"
       value={value}
       onChange={e => onChange(e.target.value)}
     >
-      {options?.map((opt: any) => (
+      {options?.map((opt: { label: string; value: unknown }) => (
         <option key={opt.value} value={opt.value}>
           {opt.label}
         </option>
@@ -47,7 +55,7 @@ jest.mock('@superset-ui/core', () => ({
 
 jest.mock('lodash/debounce', () => {
   const debounced = (fn: Function) => {
-    const debouncedFn = ((...args: any[]) =>
+    const debouncedFn = ((...args: unknown[]) =>
       fn(...args)) as unknown as Function & {
       cancel: () => void;
     };

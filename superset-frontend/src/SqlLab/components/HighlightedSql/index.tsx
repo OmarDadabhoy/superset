@@ -26,7 +26,7 @@ export interface HighlightedSqlProps {
   rawSql?: string;
   maxWidth?: number;
   maxLines?: number;
-  shrink?: any;
+  shrink?: boolean;
 }
 
 interface HighlightedSqlModalTypes {

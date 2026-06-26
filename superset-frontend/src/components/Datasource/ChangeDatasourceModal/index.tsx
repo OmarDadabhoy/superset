@@ -184,7 +184,7 @@ const ChangeDatasourceModal: FunctionComponent<ChangeDatasourceModalProps> = ({
       addSuccessToast(t('Successfully changed %s!', datasetLabelLower()));
     } catch (response) {
       getClientErrorObject(response).then(
-        ({ error, message }: { error: any; message: string }) => {
+        ({ error, message }: { error: unknown; message: string }) => {
           const errorMessage = error
             ? error.error || error.statusText || error
             : message;
@@ -200,7 +200,11 @@ const ChangeDatasourceModal: FunctionComponent<ChangeDatasourceModalProps> = ({
 
   const columns = [
     {
-      Cell: ({ row: { original } }: any) => (
+      Cell: ({
+        row: { original },
+      }: {
+        row: { original: Record<string, unknown> };
+      }) => (
         <StyledSpan
           role="button"
           tabIndex={0}
@@ -236,7 +240,11 @@ const ChangeDatasourceModal: FunctionComponent<ChangeDatasourceModalProps> = ({
         row: {
           original: { owners = [] },
         },
-      }: any) => <FacePile users={owners} />,
+      }: {
+        row: {
+          original: { owners: { first_name: string; last_name: string }[] };
+        };
+      }) => <FacePile users={owners} />,
       Header: t('Owners'),
       id: 'owners',
       disableSortBy: true,

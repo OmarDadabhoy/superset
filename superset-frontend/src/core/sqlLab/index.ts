@@ -366,7 +366,7 @@ const globalPredicate =
 
 const onDidQueryRun: typeof sqlLabApi.onDidQueryRun = (
   listener: (queryContext: sqlLabApi.QueryContext) => void,
-  thisArgs?: any,
+  thisArgs?: unknown,
 ): Disposable =>
   createActionListener(
     predicate(START_QUERY),
@@ -377,7 +377,7 @@ const onDidQueryRun: typeof sqlLabApi.onDidQueryRun = (
 
 const onDidQuerySuccess: typeof sqlLabApi.onDidQuerySuccess = (
   listener: (queryResultContext: sqlLabApi.QueryResultContext) => void,
-  thisArgs?: any,
+  thisArgs?: unknown,
 ): Disposable =>
   createActionListener(
     predicate(QUERY_SUCCESS),
@@ -389,7 +389,7 @@ const onDidQuerySuccess: typeof sqlLabApi.onDidQuerySuccess = (
 
 const onDidQueryStop: typeof sqlLabApi.onDidQueryStop = (
   listener: (queryContext: sqlLabApi.QueryContext) => void,
-  thisArgs?: any,
+  thisArgs?: unknown,
 ): Disposable =>
   createActionListener(
     predicate(STOP_QUERY),
@@ -402,7 +402,7 @@ const onDidQueryFail: typeof sqlLabApi.onDidQueryFail = (
   listener: (
     queryErrorResultContext: sqlLabApi.QueryErrorResultContext,
   ) => void,
-  thisArgs?: any,
+  thisArgs?: unknown,
 ): Disposable =>
   createActionListener(
     predicate(QUERY_FAILED),
@@ -414,7 +414,7 @@ const onDidQueryFail: typeof sqlLabApi.onDidQueryFail = (
 
 const onDidChangeEditorDatabase: typeof sqlLabApi.onDidChangeEditorDatabase = (
   listener: (e: number) => void,
-  thisArgs?: any,
+  thisArgs?: unknown,
 ): Disposable =>
   createActionListener(
     predicate(QUERY_EDITOR_SETDB),
@@ -426,7 +426,7 @@ const onDidChangeEditorDatabase: typeof sqlLabApi.onDidChangeEditorDatabase = (
 
 const onDidCloseTab: typeof sqlLabApi.onDidCloseTab = (
   listener: (tab: sqlLabApi.Tab) => void,
-  thisArgs?: any,
+  thisArgs?: unknown,
 ): Disposable =>
   createActionListener(
     globalPredicate(REMOVE_QUERY_EDITOR),
@@ -447,7 +447,7 @@ const onDidCloseTab: typeof sqlLabApi.onDidCloseTab = (
 
 const onDidChangeActiveTab: typeof sqlLabApi.onDidChangeActiveTab = (
   listener: (tab: sqlLabApi.Tab) => void,
-  thisArgs?: any,
+  thisArgs?: unknown,
 ): Disposable =>
   createActionListener(
     globalPredicate(SET_ACTIVE_QUERY_EDITOR),
@@ -459,7 +459,7 @@ const onDidChangeActiveTab: typeof sqlLabApi.onDidChangeActiveTab = (
 
 const onDidChangeEditorSchema: typeof sqlLabApi.onDidChangeEditorSchema = (
   listener: (schema: string) => void,
-  thisArgs?: any,
+  thisArgs?: unknown,
 ): Disposable =>
   createActionListener(
     predicate(QUERY_EDITOR_SET_SCHEMA),
@@ -470,7 +470,7 @@ const onDidChangeEditorSchema: typeof sqlLabApi.onDidChangeEditorSchema = (
 
 const onDidChangeActivePanel: typeof sqlLabApi.onDidChangeActivePanel = (
   listener: (panel: sqlLabApi.Panel) => void,
-  thisArgs?: any,
+  thisArgs?: unknown,
 ): Disposable =>
   createActionListener(
     globalPredicate(SET_ACTIVE_SOUTHPANE_TAB),
@@ -481,7 +481,7 @@ const onDidChangeActivePanel: typeof sqlLabApi.onDidChangeActivePanel = (
 
 const onDidChangeTabTitle: typeof sqlLabApi.onDidChangeTabTitle = (
   listener: (title: string) => void,
-  thisArgs?: any,
+  thisArgs?: unknown,
 ): Disposable =>
   createActionListener(
     predicate(QUERY_EDITOR_SET_TITLE),
@@ -495,7 +495,7 @@ const onDidChangeTabTitle: typeof sqlLabApi.onDidChangeTabTitle = (
  */
 const onDidCreateTab: typeof sqlLabApi.onDidCreateTab = (
   listener: (tab: sqlLabApi.Tab) => void,
-  thisArgs?: any,
+  thisArgs?: unknown,
 ): Disposable =>
   createActionListener(
     globalPredicate(ADD_QUERY_EDITOR),

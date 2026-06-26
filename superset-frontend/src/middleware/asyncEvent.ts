@@ -41,7 +41,7 @@ type AsyncEvent = {
 
 type CachedDataResponse = {
   status: string;
-  data: any;
+  data: Record<string, unknown>;
 };
 type AppConfig = Record<string, any>;
 type ListenerFn = (asyncEvent: AsyncEvent) => Promise<any>;
@@ -189,7 +189,7 @@ const loadEventsFromApi = async () => {
 const wsConnectMaxRetries = 6;
 const wsConnectErrorDelay = 2500;
 let wsConnectRetries = 0;
-let wsConnectTimeout: any;
+let wsConnectTimeout: ReturnType<typeof setTimeout>;
 let ws: WebSocket;
 
 const wsConnect = (): void => {

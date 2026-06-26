@@ -25,8 +25,8 @@ import ChartContextMenu, {
 
 export const useContextMenu = (
   chartId: number,
-  formData: BaseFormData & { [key: string]: any },
-  onSelection?: (...args: any) => void,
+  formData: BaseFormData & { [key: string]: unknown },
+  onSelection?: (...args: unknown[]) => void,
   displayedItems?: ContextMenuItem[] | ContextMenuItem,
   additionalConfig?: {
     crossFilter?: Record<string, any>;
@@ -46,7 +46,7 @@ export const useContextMenu = (
   };
 
   const handleContextMenuSelected = useCallback(
-    (...args: any) => {
+    (...args: unknown[]) => {
       setInContextMenu(false);
       onSelection?.(...args);
     },
