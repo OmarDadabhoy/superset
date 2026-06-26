@@ -51,7 +51,7 @@ describe('TimeTable Control Panel', () => {
   test('should have column collection control', () => {
     const querySection = controlPanelConfig.controlPanelSections[1];
     const columnCollectionRow = querySection!.controlSetRows.find(
-      (row: any) =>
+      (row: Record<string, unknown>) =>
         Array.isArray(row) &&
         row.length === 1 &&
         row[0].name === 'column_collection',
@@ -72,7 +72,7 @@ describe('TimeTable Control Panel', () => {
   test('should have URL control', () => {
     const querySection = controlPanelConfig.controlPanelSections[1];
     const urlRow = querySection!.controlSetRows.find(
-      (row: any) =>
+      (row: Record<string, unknown>) =>
         Array.isArray(row) && row.length === 1 && row[0].name === 'url',
     );
 

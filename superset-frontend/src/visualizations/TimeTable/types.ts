@@ -40,7 +40,7 @@ export interface ColumnConfig {
 export interface ColumnRow {
   label?: string;
   column_name?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface MetricRow {
@@ -54,7 +54,7 @@ export interface MetricRow {
   is_certified?: boolean;
   certified_by?: string;
   certification_details?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export type Row = ColumnRow | MetricRow;
@@ -77,7 +77,7 @@ export interface TimeTableProps {
 
 export interface Entry {
   time: string;
-  [metric: string]: any;
+  [metric: string]: unknown;
 }
 
 export interface Stats {

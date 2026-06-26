@@ -34,7 +34,7 @@ export type RLSObject = {
 };
 
 export type TableObject = {
-  key: any;
+  key: string | number;
   id?: number;
   label?: string;
   value?: number | string;
@@ -43,7 +43,7 @@ export type TableObject = {
 };
 
 export type RoleObject = {
-  key: any;
+  key: string | number;
   id?: number;
   label?: string;
   value?: number | string;

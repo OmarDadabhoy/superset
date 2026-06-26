@@ -54,7 +54,9 @@ export function CalendarFrame({ onChange, value }: FrameComponentProps) {
         }}
         size="large"
         value={value}
-        onChange={(e: any) => onChange(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          onChange(e.target.value)
+        }
         options={CALENDAR_RANGE_OPTIONS}
       />
     </>

@@ -52,7 +52,7 @@ function UserListModal({
   const { addDangerToast, addSuccessToast } = useToasts();
   const handleFormSubmit = async (values: FormValues) => {
     const handleError = async (
-      err: any,
+      err: unknown,
       action: Actions.CREATE | Actions.UPDATE,
     ) => {
       let errorMessage =

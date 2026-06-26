@@ -610,7 +610,7 @@ class AdhocMetricEditPopover extends PureComponent<
 // ---------------------------------------------------------------------------
 function AdhocMetricEditPopoverWithRedux(props: AdhocMetricEditPopoverProps) {
   const compatibleMetrics = useSelector(
-    (state: any) =>
+    (state: { explore: { datasource?: { type: string } } }) =>
       state.explore?.compatibleMetrics as string[] | null | undefined,
   );
   return (

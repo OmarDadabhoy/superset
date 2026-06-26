@@ -103,7 +103,7 @@ export class Disposable implements coreType.Disposable {
     this.dispose = callOnDispose;
   }
 
-  dispose(): any {
+  dispose(): void {
     this.dispose();
   }
 }

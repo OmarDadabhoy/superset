@@ -26,7 +26,10 @@ export default {
   component: CopyToClipboard,
 };
 
-export const InteractiveCopyToClipboard = ({ copyNode, ...rest }: any) => {
+export const InteractiveCopyToClipboard = ({
+  copyNode,
+  ...rest
+}: Record<string, unknown>) => {
   let node = <Button>Copy</Button>;
   if (copyNode === 'Icon') {
     node = <Icons.CopyOutlined />;

@@ -282,7 +282,10 @@ const getDefaultState = (orientation: FilterBarOrientation) => ({
   datasources: {},
 });
 
-function setupWithFilters(overrideState: any = {}, props: any = {}) {
+function setupWithFilters(
+  overrideState: Record<string, unknown> = {},
+  props: Record<string, unknown> = {},
+) {
   const state = {
     ...getDefaultState(FilterBarOrientation.Vertical),
     ...overrideState,

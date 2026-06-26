@@ -31,7 +31,7 @@ export interface TextControlProps<T extends InputValueType = InputValueType> {
   disabled?: boolean;
   isFloat?: boolean;
   isInt?: boolean;
-  onChange?: (value: T, errors: any) => void;
+  onChange?: (value: T, errors: string[]) => void;
   onFocus?: () => {};
   placeholder?: string;
   value?: T | null;

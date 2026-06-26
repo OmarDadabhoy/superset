@@ -104,7 +104,7 @@ export interface ColumnSelectPopoverProps {
   disabledTabs?: Set<string>;
   metrics?: Metric[];
   selectedMetrics?: QueryFormMetric[];
-  datasource?: any;
+  datasource?: Record<string, unknown>;
 }
 
 const getInitialColumnValues = (

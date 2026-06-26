@@ -123,7 +123,13 @@ export default function AllEntitiesTable({
               row: {
                 original: { owners = [] },
               },
-            }: any) => <FacePile users={owners} />,
+            }: {
+              row: {
+                original: {
+                  owners: { first_name: string; last_name: string }[];
+                };
+              };
+            }) => <FacePile users={owners} />,
             Header: t('Owners'),
             accessor: 'owners',
             disableSortBy: true,

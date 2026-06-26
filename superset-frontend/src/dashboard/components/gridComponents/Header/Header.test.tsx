@@ -35,9 +35,9 @@ describe('Header', () => {
     id: string;
     dashboardId: string;
     parentId: string;
-    component: any;
+    component: Record<string, unknown>;
     depth: number;
-    parentComponent: any;
+    parentComponent: Record<string, unknown>;
     index: number;
     editMode: boolean;
     embeddedMode: boolean;

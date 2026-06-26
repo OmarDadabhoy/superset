@@ -216,7 +216,7 @@ export const getUserOwnedObjects = (
   }).then(res => res.json?.result);
 
 export const getFilteredChartsandDashboards = (
-  addDangerToast: (arg1: string, arg2: any) => any,
+  addDangerToast: (arg1: string, arg2: unknown) => void,
   filters: Filter[],
   dashboardSelectColumns?: string[],
   chartSelectColumns?: string[],
@@ -248,11 +248,11 @@ export const getFilteredChartsandDashboards = (
 export const getRecentActivityObjs = (
   userId: string | number,
   recent: string,
-  addDangerToast: (arg1: string, arg2: any) => any,
+  addDangerToast: (arg1: string, arg2: unknown) => void,
   filters: Filter[],
 ) =>
   SupersetClient.get({ endpoint: recent }).then(recentsRes => {
-    const res: any = {};
+    const res: Record<string, string> = {};
     const distinctRes = lruCache<RecentActivity>(6);
     recentsRes.json.result.reverse().forEach((record: RecentActivity) => {
       distinctRes.set(record.item_url, record);
@@ -451,7 +451,7 @@ export const CardStyles = styled.div`
 `;
 
 export /* eslint-disable no-underscore-dangle */
-const isNeedsPassword = (payload: any) =>
+const isNeedsPassword = (payload: Record<string, unknown>) =>
   typeof payload === 'object' &&
   Array.isArray(payload._schema) &&
   !!payload._schema?.find(
@@ -459,7 +459,7 @@ const isNeedsPassword = (payload: any) =>
   );
 
 export /* eslint-disable no-underscore-dangle */
-const isNeedsSSHPassword = (payload: any) =>
+const isNeedsSSHPassword = (payload: Record<string, unknown>) =>
   typeof payload === 'object' &&
   Array.isArray(payload._schema) &&
   !!payload._schema?.find(
@@ -467,7 +467,7 @@ const isNeedsSSHPassword = (payload: any) =>
   );
 
 export /* eslint-disable no-underscore-dangle */
-const isNeedsSSHPrivateKey = (payload: any) =>
+const isNeedsSSHPrivateKey = (payload: Record<string, unknown>) =>
   typeof payload === 'object' &&
   Array.isArray(payload._schema) &&
   !!payload._schema?.find(
@@ -475,7 +475,7 @@ const isNeedsSSHPrivateKey = (payload: any) =>
   );
 
 export /* eslint-disable no-underscore-dangle */
-const isNeedsSSHPrivateKeyPassword = (payload: any) =>
+const isNeedsSSHPrivateKeyPassword = (payload: Record<string, unknown>) =>
   typeof payload === 'object' &&
   Array.isArray(payload._schema) &&
   !!payload._schema?.find(
@@ -483,7 +483,7 @@ const isNeedsSSHPrivateKeyPassword = (payload: any) =>
       e === 'Must provide a private key password for the ssh tunnel',
   );
 
-export const isAlreadyExists = (payload: any) =>
+export const isAlreadyExists = (payload: Record<string, unknown>) =>
   typeof payload === 'string' &&
   payload.includes('already exists and `overwrite=true` was not passed');
 
@@ -531,7 +531,7 @@ const ENCRYPTED_EXTRA_FIELD_REGEX =
   /^Must provide value for masked_encrypted_extra field: (.+?)(?:\s+\((.+)\))?$/;
 
 export /* eslint-disable no-underscore-dangle */
-const isNeedsEncryptedExtraField = (payload: any) =>
+const isNeedsEncryptedExtraField = (payload: Record<string, unknown>) =>
   typeof payload === 'object' &&
   Array.isArray(payload._schema) &&
   payload._schema?.some((e: string) => ENCRYPTED_EXTRA_FIELD_REGEX.test(e));

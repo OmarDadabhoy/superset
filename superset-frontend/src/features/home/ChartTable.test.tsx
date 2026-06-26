@@ -98,7 +98,7 @@ const renderOptions = {
   useRouter: true,
 };
 
-const renderChartTable = (props: any) =>
+const renderChartTable = (props: Record<string, unknown>) =>
   // Use of act here prevents an error about state updates inside tests
   act(async () => {
     render(<ChartTable {...props} />, renderOptions);

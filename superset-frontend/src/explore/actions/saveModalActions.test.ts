@@ -108,7 +108,7 @@ test('updateSlice handles success', async () => {
     name: updateSliceEndpoint,
   });
   const dispatchSpy = jest.fn();
-  const dispatch = (action: any) => {
+  const dispatch = (action: { type: string }) => {
     dispatchSpy(action);
   };
   const getState = () => mockExploreState;
@@ -157,7 +157,7 @@ test('updateSlice handles failure', async () => {
   );
 
   const dispatchSpy = jest.fn();
-  const dispatch = (action: any) => {
+  const dispatch = (action: { type: string }) => {
     dispatchSpy(action);
   };
 
@@ -209,7 +209,7 @@ test('createSlice handles success', async () => {
     name: createSliceEndpoint,
   });
   const dispatchSpy = jest.fn();
-  const dispatch = (action: any) => dispatchSpy(action);
+  const dispatch = (action: { type: string }) => dispatchSpy(action);
   const getState = () => mockExploreState;
   const slice: Partial<PayloadSlice> = await createSlice(sliceName, [])(
     dispatch as Dispatch,
@@ -231,7 +231,7 @@ test('createSlice handles failure', async () => {
   fetchMock.post(createSliceEndpoint, { throws: sampleError });
 
   const dispatchSpy = jest.fn();
-  const dispatch = (action: any) => dispatchSpy(action);
+  const dispatch = (action: { type: string }) => dispatchSpy(action);
   const getState = () => mockExploreState;
 
   let caughtError: Error | undefined;
@@ -295,7 +295,7 @@ test('updateSlice with add to new dashboard handles success', async () => {
     name: updateSliceEndpoint,
   });
   const dispatchSpy = jest.fn();
-  const dispatch = (action: any) => dispatchSpy(action);
+  const dispatch = (action: { type: string }) => dispatchSpy(action);
   const getState = () => mockExploreState;
 
   const slice = await updateSlice(
@@ -355,7 +355,7 @@ test('updateSlice with add to existing dashboard handles success', async () => {
     name: updateSliceEndpoint,
   });
   const dispatchSpy = jest.fn();
-  const dispatch = (action: any) => dispatchSpy(action);
+  const dispatch = (action: { type: string }) => dispatchSpy(action);
   const getState = () => mockExploreState;
   const slice = await updateSlice(
     {
@@ -425,7 +425,7 @@ test('getSliceDashboards with slice handles success', async () => {
     name: getSliceDashboardsEndpoint,
   });
   const dispatchSpy = jest.fn();
-  const dispatch = (action: any) => dispatchSpy(action);
+  const dispatch = (action: { type: string }) => dispatchSpy(action);
   const sliceDashboards = await getSliceDashboards({
     slice_id: 10,
     owners: [],

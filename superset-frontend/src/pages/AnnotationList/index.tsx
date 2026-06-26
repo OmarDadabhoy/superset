@@ -68,7 +68,7 @@ function AnnotationList({
   addDangerToast,
   addSuccessToast,
 }: AnnotationListProps) {
-  const { annotationLayerId }: any = useParams();
+  const { annotationLayerId } = useParams<{ annotationLayerId: string }>();
   const {
     state: {
       loading,
@@ -105,9 +105,11 @@ function AnnotationList({
         });
         setAnnotationLayerName(response.json.result.name);
       } catch (response) {
-        await getClientErrorObject(response).then(({ error }: any) => {
-          addDangerToast(error.error || error.statusText || error);
-        });
+        await getClientErrorObject(response).then(
+          ({ error }: { error: unknown }) => {
+            addDangerToast(error.error || error.statusText || error);
+          },
+        );
       }
     },
     [annotationLayerId],

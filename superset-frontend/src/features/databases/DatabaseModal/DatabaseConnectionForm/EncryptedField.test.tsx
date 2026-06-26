@@ -24,7 +24,7 @@ import { EncryptedField, encryptedCredentialsMap } from './EncryptedField';
 // Mock the useToasts hook
 jest.mock('src/components/MessageToasts/withToasts', () => ({
   __esModule: true,
-  default: (Component: any) => Component,
+  default: (Component: React.ComponentType) => Component,
   useToasts: () => ({
     addDangerToast: jest.fn(),
     addSuccessToast: jest.fn(),

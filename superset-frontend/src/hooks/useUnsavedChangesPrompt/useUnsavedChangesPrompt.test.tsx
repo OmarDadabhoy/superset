@@ -129,7 +129,7 @@ test('should close modal when handleConfirmNavigation is called', () => {
 test('should preserve pathname, search, and state when confirming navigation', () => {
   const onSave = jest.fn();
   const history = createMemoryHistory();
-  const wrapper = ({ children }: any) => (
+  const wrapper = ({ children }: { children: React.ReactNode }) => (
     <Router history={history}>{children}</Router>
   );
 

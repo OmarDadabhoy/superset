@@ -65,7 +65,7 @@ function ExecutionLog({
   addSuccessToast,
   isReportEnabled,
 }: ExecutionLogProps) {
-  const { alertId }: any = useParams();
+  const { alertId } = useParams<{ alertId: string }>();
   const {
     state: { loading, resourceCount: logCount, resourceCollection: logs },
     fetchData,
@@ -98,7 +98,9 @@ function ExecutionLog({
           row: {
             original: { state },
           },
-        }: any) => (
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => (
           <AlertStatusIcon state={state} isReportEnabled={isReportEnabled} />
         ),
         accessor: 'state',
@@ -112,7 +114,9 @@ function ExecutionLog({
           row: {
             original: { uuid: executionId },
           },
-        }: any) => (executionId ? executionId.slice(0, 6) : 'none'),
+        }: {
+          row: { original: { executionId?: string } };
+        }) => (executionId ? executionId.slice(0, 6) : 'none'),
         accessor: 'uuid',
         Header: t('Execution ID'),
         size: 'xs',
@@ -124,8 +128,9 @@ function ExecutionLog({
           row: {
             original: { scheduled_dttm: scheduledDttm },
           },
-        }: any) =>
-          dayjs(new Date(scheduledDttm)).format('YYYY-MM-DD hh:mm:ss a'),
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => dayjs(new Date(scheduledDttm)).format('YYYY-MM-DD hh:mm:ss a'),
         accessor: 'scheduled_dttm',
         Header: t('Scheduled at (UTC)'),
         id: 'scheduled_dttm',
@@ -173,7 +178,9 @@ function ExecutionLog({
           row: {
             original: { error_message = '' },
           },
-        }: any) => (
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => (
           <Tooltip title={error_message} placement="topLeft">
             <span>{error_message}</span>
           </Tooltip>

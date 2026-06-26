@@ -61,7 +61,7 @@ jest.spyOn(reduxHooks, 'useDispatch').mockReturnValue(mockDispatch);
 // Capture the channel instance created by the component so tests can drive its
 // onmessage handler and assert it gets closed on unmount.
 let capturedChannel: {
-  onmessage: ((event: any) => void) | null;
+  onmessage: ((event: MessageEvent) => void) | null;
   close: jest.Mock;
 };
 const channelCloseMock = jest.fn();
@@ -74,11 +74,11 @@ beforeEach(() => {
     .mockImplementation(() => capturedChannel);
 });
 
-function simulateBroadcastMessage(data: any) {
+function simulateBroadcastMessage(data: Record<string, unknown>) {
   capturedChannel.onmessage?.({ data });
 }
 
-function simulateStorageMessage(data: any) {
+function simulateStorageMessage(data: Record<string, unknown>) {
   window.dispatchEvent(
     new StorageEvent('storage', {
       key: 'oauth2_auth_complete',

@@ -261,7 +261,9 @@ function AlertList({
           row: {
             original: { last_state: lastState },
           },
-        }: any) => (
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => (
           <AlertStatusIcon
             state={lastState}
             isReportEnabled={isReportEnabled}
@@ -277,7 +279,9 @@ function AlertList({
           row: {
             original: { last_eval_dttm: lastEvalDttm },
           },
-        }: any) =>
+        }: {
+          row: { original: Record<string, unknown> };
+        }) =>
           lastEvalDttm
             ? extendedDayjs
                 .utc(lastEvalDttm)
@@ -303,7 +307,9 @@ function AlertList({
           row: {
             original: { crontab_humanized = '', timezone },
           },
-        }: any) => (
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => (
           <Tooltip
             title={`${crontab_humanized} (${timezone})`}
             placement="topLeft"
@@ -318,8 +324,10 @@ function AlertList({
           row: {
             original: { recipients },
           },
-        }: any) =>
-          recipients.map((r: any) => (
+        }: {
+          row: { original: Record<string, unknown> };
+        }) =>
+          recipients.map((r: Record<string, unknown>) => (
             <RecipientIcon key={r.id} type={r.type} />
           )),
         accessor: 'recipients',
@@ -333,7 +341,11 @@ function AlertList({
           row: {
             original: { owners = [] },
           },
-        }: any) => <FacePile users={owners} />,
+        }: {
+          row: {
+            original: { owners: { first_name: string; last_name: string }[] };
+          };
+        }) => <FacePile users={owners} />,
         Header: t('Owners'),
         id: 'owners',
         disableSortBy: true,
@@ -347,14 +359,25 @@ function AlertList({
               changed_by: changedBy,
             },
           },
-        }: any) => <ModifiedInfo date={changedOn} user={changedBy} />,
+        }: {
+          row: {
+            original: {
+              changed_on_delta_humanized: string;
+              changed_by: unknown;
+            };
+          };
+        }) => <ModifiedInfo date={changedOn} user={changedBy} />,
         Header: t('Last modified'),
         accessor: 'changed_on_delta_humanized',
         size: 'xl',
         id: 'changed_on_delta_humanized',
       },
       {
-        Cell: ({ row: { original } }: any) => {
+        Cell: ({
+          row: { original },
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => {
           const allowEdit =
             original.owners.map((o: Owner) => o.id).includes(user.userId) ||
             isUserAdmin(user);
@@ -375,7 +398,11 @@ function AlertList({
         size: 'sm',
       },
       {
-        Cell: ({ row: { original } }: any) => {
+        Cell: ({
+          row: { original },
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => {
           const history = useHistory();
           const handleEdit = () => handleAlertEdit(original);
           const handleDelete = () => setCurrentAlertDeleting(original);

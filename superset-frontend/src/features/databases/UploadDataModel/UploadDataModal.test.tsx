@@ -111,15 +111,15 @@ const getCommonElements = () => ({
 });
 
 // Helper function to check element visibility
-const expectElementsVisible = (elements: any[]) => {
-  elements.forEach((element: any) => {
+const expectElementsVisible = (elements: HTMLElement[]) => {
+  elements.forEach((element: HTMLElement) => {
     expect(element).toBeInTheDocument();
   });
 };
 
 // Helper function to check element absence
-const expectElementsNotVisible = (elements: any[]) => {
-  elements.forEach((element: any) => {
+const expectElementsNotVisible = (elements: HTMLElement[]) => {
+  elements.forEach((element: HTMLElement) => {
     expect(element).not.toBeInTheDocument();
   });
 };

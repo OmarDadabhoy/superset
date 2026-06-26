@@ -24,12 +24,12 @@ type Command = commandsApi.Command;
 
 const commandsMap: Map<string, Command> = new Map();
 
-const commandRegistry: Map<string, (...args: any[]) => any> = new Map();
+const commandRegistry: Map<string, (...args: unknown[]) => unknown> = new Map();
 
 const registerCommand: typeof commandsApi.registerCommand = (
   command: Command,
-  callback: (...args: any[]) => any,
-  thisArg?: any,
+  callback: (...args: unknown[]) => unknown,
+  thisArg?: unknown,
 ): Disposable => {
   const { id } = command;
 
@@ -51,7 +51,7 @@ const registerCommand: typeof commandsApi.registerCommand = (
 
 const executeCommand: typeof commandsApi.executeCommand = async <T>(
   command: string,
-  ...args: any[]
+  ...args: unknown[]
 ): Promise<T> => {
   const callback = commandRegistry.get(command);
   if (!callback) {

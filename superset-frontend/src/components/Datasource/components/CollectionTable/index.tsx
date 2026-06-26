@@ -52,11 +52,11 @@ const StyledButtonWrapper = styled.span`
   `}
 `;
 
-type CollectionItem = { id: string | number; [key: string]: any };
+type CollectionItem = { id: string | number; [key: string]: unknown };
 
 function createKeyedCollection(arr: Array<object>) {
   const collectionArray = arr.map(
-    (o: any) =>
+    (o: CollectionItem) =>
       ({
         ...o,
         id: o.id || nanoid(),
@@ -182,14 +182,14 @@ export default class CRUDCollection extends PureComponent<
     }
   }
 
-  onFieldsetChange(item: any) {
+  onFieldsetChange(item: CollectionItem) {
     this.changeCollection({
       ...this.state.collection,
       [item.id]: item,
     });
   }
 
-  getLabel(col: any): string {
+  getLabel(col: Record<string, unknown>): string {
     const { columnLabels } = this.props;
     let label = columnLabels?.[col] ? columnLabels[col] : col;
     if (label.startsWith('__')) {
@@ -203,7 +203,7 @@ export default class CRUDCollection extends PureComponent<
     return columnLabelTooltips?.[col];
   }
 
-  changeCollection(collection: any) {
+  changeCollection(collection: CollectionItem[]) {
     // Preserve existing order instead of recreating from Object.keys()
     const existingIds = new Set(
       this.state.collectionArray.map(item => item.id),
@@ -237,7 +237,7 @@ export default class CRUDCollection extends PureComponent<
     this.changeCollection(newColl);
   }
 
-  toggleExpand(id: any) {
+  toggleExpand(id: string | number) {
     this.setState(prevState => ({
       expandedColumns: {
         ...prevState.expandedColumns,
@@ -291,7 +291,10 @@ export default class CRUDCollection extends PureComponent<
           return mStr.localeCompare(nStr);
         };
 
-        sortedArray.sort((a: any, b: any) => compareSort(a[col], b[col]));
+        sortedArray.sort(
+          (a: Record<string, unknown>, b: Record<string, unknown>) =>
+            compareSort(a[col], b[col]),
+        );
         if (newSortOrder === 2) {
           sortedArray.reverse();
         }
@@ -310,7 +313,7 @@ export default class CRUDCollection extends PureComponent<
     }
   }
 
-  renderExpandableSection(item: any): ReactNode {
+  renderExpandableSection(item: CollectionItem): ReactNode {
     const propsGenerator = () => ({ item, onChange: this.onFieldsetChange });
     return recurseReactClone(
       this.props.expandFieldset,
@@ -319,7 +322,7 @@ export default class CRUDCollection extends PureComponent<
     );
   }
 
-  renderCell(record: any, col: any): ReactNode {
+  renderCell(record: CollectionItem, col: Record<string, unknown>): ReactNode {
     const renderer = this.props.itemRenderers?.[col];
     const val = record[col];
     const onChange = this.onCellChange.bind(this, record.id, col);
@@ -361,7 +364,7 @@ export default class CRUDCollection extends PureComponent<
             )}
           </>
         ),
-        render: (text: any, record: CollectionItem) =>
+        render: (text: unknown, record: CollectionItem) =>
           this.renderCell(record, col),
         onCell: (record: CollectionItem) => {
           const cellPropsFn = this.props.itemCellProps?.[col];

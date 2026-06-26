@@ -232,7 +232,7 @@ describe('PropertiesModal', () => {
   });
 
   test('should render - FeatureFlag enabled', async () => {
-    mockedIsFeatureEnabled.mockImplementation((flag: any) => {
+    mockedIsFeatureEnabled.mockImplementation((flag: string) => {
       if (flag === FeatureFlag.DashboardRbac) return true;
       if (flag === FeatureFlag.TaggingSystem) return true;
       return false;
@@ -289,7 +289,7 @@ describe('PropertiesModal', () => {
   });
 
   test('should open advance', async () => {
-    mockedIsFeatureEnabled.mockImplementation((flag: any) => {
+    mockedIsFeatureEnabled.mockImplementation((flag: string) => {
       if (flag === FeatureFlag.DashboardRbac) return true;
       if (flag === FeatureFlag.TaggingSystem) return true;
       return false;
@@ -322,7 +322,7 @@ describe('PropertiesModal', () => {
   });
 
   test('should close modal', async () => {
-    mockedIsFeatureEnabled.mockImplementation((flag: any) => {
+    mockedIsFeatureEnabled.mockImplementation((flag: string) => {
       if (flag === FeatureFlag.DashboardRbac) return true;
       if (flag === FeatureFlag.TaggingSystem) return true;
       return false;
@@ -515,7 +515,7 @@ describe('PropertiesModal', () => {
   });
 
   test('should show all roles', async () => {
-    mockedIsFeatureEnabled.mockImplementation((flag: any) => {
+    mockedIsFeatureEnabled.mockImplementation((flag: string) => {
       if (flag === FeatureFlag.DashboardRbac) return true;
       if (flag === FeatureFlag.TaggingSystem) return true;
       return false;
@@ -573,7 +573,7 @@ describe('PropertiesModal', () => {
   }, 30000);
 
   test('should show active owners with dashboard rbac', async () => {
-    mockedIsFeatureEnabled.mockImplementation((flag: any) => {
+    mockedIsFeatureEnabled.mockImplementation((flag: string) => {
       if (flag === FeatureFlag.DashboardRbac) return true;
       if (flag === FeatureFlag.TaggingSystem) return true;
       return false;
@@ -695,7 +695,7 @@ describe('PropertiesModal', () => {
     });
 
     const getSpy = jest.spyOn(SupersetCore.SupersetClient, 'get');
-    let resolveFetch: any;
+    let resolveFetch: (value: unknown) => void;
     const fetchPromise = new Promise(resolve => {
       resolveFetch = resolve;
     });

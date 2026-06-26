@@ -113,7 +113,7 @@ export const FilterInput = ({
     <Input
       prefix={<Icons.SearchOutlined iconSize="l" />}
       placeholder={t('Search')}
-      onChange={(event: any) => {
+      onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
         const filterText = event.target.value;
         debouncedChangeHandler(filterText);
       }}

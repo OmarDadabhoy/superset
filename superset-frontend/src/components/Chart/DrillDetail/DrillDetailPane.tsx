@@ -62,7 +62,7 @@ import { datasetLabelLower } from 'src/features/semanticLayers/label';
 const DEFAULT_PAGE_SIZE = 50;
 
 interface DataType {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 // Must be outside of the main component due to problems in

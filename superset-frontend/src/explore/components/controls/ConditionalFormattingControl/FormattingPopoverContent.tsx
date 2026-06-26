@@ -66,7 +66,7 @@ const targetValueValidator =
     rejectMessage: string,
   ) =>
   (targetValue: number | string) =>
-  (_: any, compareValue: number | string) => {
+  (_: unknown, compareValue: number | string) => {
     if (
       !targetValue ||
       !compareValue ||
@@ -251,7 +251,7 @@ export const FormattingPopoverContent = ({
     config?.useGradient !== undefined ? config.useGradient : true,
   );
 
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setShowOperatorFields(
       !(event === ColorSchemeEnum.Green || event === ColorSchemeEnum.Red),
     );

@@ -58,7 +58,7 @@ export interface ComponentMeta {
   headerSize?: HeaderStyleValue;
   background?: BackgroundStyleValue;
   chartId?: number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface ComponentShape {
@@ -79,7 +79,7 @@ interface HeaderProps {
   index: number;
   editMode: boolean;
   embeddedMode: boolean;
-  handleComponentDrop: (dropResult: any) => void;
+  handleComponentDrop: (dropResult: Record<string, unknown>) => void;
   deleteComponent: (id: string, parentId: string) => void;
   updateComponents: (changes: Record<string, ComponentShape>) => void;
 }

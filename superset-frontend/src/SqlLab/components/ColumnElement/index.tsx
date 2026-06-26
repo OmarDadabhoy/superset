@@ -22,7 +22,7 @@ import { t } from '@apache-superset/core/translation';
 import { styled, useTheme } from '@apache-superset/core/theme';
 import { Flex, Tooltip } from '@superset-ui/core/components';
 
-const StyledTooltip = (props: any) => {
+const StyledTooltip = (props: Record<string, unknown>) => {
   const theme = useTheme();
   return (
     <ClassNames>

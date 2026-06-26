@@ -42,7 +42,7 @@ interface BulkTagModalProps {
   addSuccessToast: (msg: string) => void;
   addDangerToast: (msg: string) => void;
   show: boolean;
-  selected: any[];
+  selected: Record<string, unknown>[];
   resourceName: string;
 }
 

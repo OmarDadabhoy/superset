@@ -268,7 +268,7 @@ export const useFilterControlDisplay = (
       if (overflow) {
         return {
           FilterControlContainer: HorizontalOverflowFilterControlContainer,
-          FormItem: (props: any) => (
+          FormItem: (props: Record<string, unknown>) => (
             <HorizontalOverflowFormItem
               {...props}
               inverseSelection={inverseSelection}
@@ -280,7 +280,7 @@ export const useFilterControlDisplay = (
       }
       return {
         FilterControlContainer: HorizontalFilterControlContainer,
-        FormItem: (props: any) => (
+        FormItem: (props: Record<string, unknown>) => (
           <HorizontalFormItem {...props} inverseSelection={inverseSelection} />
         ),
         FilterControlTitleBox: HorizontalFilterControlTitleBox,
@@ -289,7 +289,7 @@ export const useFilterControlDisplay = (
     }
     return {
       FilterControlContainer: VerticalFilterControlContainer,
-      FormItem: (props: any) => (
+      FormItem: (props: Record<string, unknown>) => (
         <VerticalFormItem {...props} inverseSelection={inverseSelection} />
       ),
       FilterControlTitleBox: VerticalFilterControlTitleBox,

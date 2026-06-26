@@ -352,7 +352,9 @@ function SavedQueryList({
           row: {
             original: { id, label },
           },
-        }: any) => <Link to={`/sqllab?savedQueryId=${id}`}>{label}</Link>,
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => <Link to={`/sqllab?savedQueryId=${id}`}>{label}</Link>,
         id: 'label',
       },
       {
@@ -384,8 +386,12 @@ function SavedQueryList({
           row: {
             original: { sql_tables: tables = [] },
           },
-        }: any) => {
-          const names = tables.map((table: any) => table.table);
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => {
+          const names = tables.map(
+            (table: Record<string, unknown>) => table.table,
+          );
           const main = names?.shift() || '';
 
           if (names.length) {
@@ -423,7 +429,9 @@ function SavedQueryList({
           row: {
             original: { tags = [] },
           },
-        }: any) => (
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => (
           // Only show custom type tags
           <TagsList
             tags={tags.filter(
@@ -470,7 +478,11 @@ function SavedQueryList({
         hidden: true,
       },
       {
-        Cell: ({ row: { original } }: any) => {
+        Cell: ({
+          row: { original },
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => {
           const handlePreview = () => {
             handleSavedQueryPreview(original.id);
           };

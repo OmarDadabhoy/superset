@@ -41,7 +41,7 @@ const dataset = {
   ],
 };
 
-const setup = (overrides: Record<string, any> = {}, result?: any) =>
+const setup = (overrides: Record<string, unknown> = {}, result?: unknown) =>
   render(
     <DrillByChart
       formData={{ ...chart.form_data, ...overrides }}

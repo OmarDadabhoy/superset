@@ -140,7 +140,7 @@ test('can unfavorite a dashboard', async () => {
   });
   global.URL.createObjectURL = jest.fn();
   fetchMock.get('/thumbnail', { body: new Blob(), sendAsJson: false });
-  fetchMock.get('glob:*', (callLog: any) => {
+  fetchMock.get('glob:*', (callLog: Record<string, unknown>) => {
     const reqUrl =
       typeof callLog === 'string' ? callLog : callLog?.url || callLog;
     throw new Error(`[fetchMock catch-all] Unmatched GET: ${reqUrl}`);
@@ -278,7 +278,7 @@ test('can edit dashboard title via properties modal', async () => {
   fetchMock.get('glob:*/api/v1/theme/*', { result: [] });
 
   // Catch-all must be last — fail hard on unmatched URLs
-  fetchMock.get(API_ENDPOINTS.CATCH_ALL, (callLog: any) => {
+  fetchMock.get(API_ENDPOINTS.CATCH_ALL, (callLog: Record<string, unknown>) => {
     const reqUrl =
       typeof callLog === 'string' ? callLog : callLog?.url || callLog;
     throw new Error(`[fetchMock catch-all] Unmatched GET: ${reqUrl}`);

@@ -137,7 +137,7 @@ describe('asyncEvent middleware', () => {
         body: { result: [asyncErrorEvent] },
       });
       const errorResponse = parseErrorJson(asyncErrorEvent);
-      let error: any = null;
+      let error: unknown = null;
       try {
         await asyncEvent.waitForAsyncData(asyncPendingEvent);
       } catch (err) {

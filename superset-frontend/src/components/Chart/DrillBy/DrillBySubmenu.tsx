@@ -55,8 +55,8 @@ const SHOW_COLUMNS_SEARCH_THRESHOLD = 10;
 
 export interface DrillBySubmenuProps {
   drillByConfig?: ContextMenuFilters['drillBy'];
-  formData: BaseFormData & { [key: string]: any };
-  onSelection?: (...args: any) => void;
+  formData: BaseFormData & { [key: string]: unknown };
+  onSelection?: (...args: unknown[]) => void;
   onClick?: (event: React.MouseEvent) => void;
   onCloseMenu?: () => void;
   openNewModal?: boolean;

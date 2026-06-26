@@ -262,7 +262,7 @@ export function useListViewResource<D extends object = any>(
 interface SingleViewResourceState<D extends object = any> {
   loading: boolean;
   resource: D | null;
-  error: any | null;
+  error: Error | Record<string, unknown> | null;
 }
 
 export function useSingleViewResource<D extends object = any>(
@@ -853,7 +853,7 @@ export function useDatabaseValidation() {
                 ];
                 return allowed.includes(err.error_type) || onCreate;
               })
-              .reduce((acc: JsonObject, err2: any) => {
+              .reduce((acc: JsonObject, err2: Record<string, unknown>) => {
                 const { message, extra } = err2;
 
                 if (extra?.catalog) {

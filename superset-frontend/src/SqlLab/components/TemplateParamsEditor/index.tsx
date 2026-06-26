@@ -46,7 +46,7 @@ const Code = styled.code`
 export type TemplateParamsEditorProps = {
   queryEditorId: string;
   language: 'yaml' | 'json';
-  onChange: (params: any) => void;
+  onChange: (params: string) => void;
 };
 
 const TemplateParamsEditor = ({

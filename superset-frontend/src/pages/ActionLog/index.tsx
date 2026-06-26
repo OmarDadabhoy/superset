@@ -147,7 +147,9 @@ function ActionLogList() {
           row: {
             original: { action },
           },
-        }: any) => <span>{action}</span>,
+        }: {
+          row: { original: { action: string } };
+        }) => <span>{action}</span>,
       },
       {
         accessor: 'user',
@@ -156,7 +158,9 @@ function ActionLogList() {
           row: {
             original: { user },
           },
-        }: any) => {
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => {
           const username = user?.username ?? '';
           const fullName = [user?.first_name, user?.last_name]
             .filter(Boolean)
@@ -182,7 +186,9 @@ function ActionLogList() {
           row: {
             original: { duration_ms },
           },
-        }: any) => <span>{duration_ms}</span>,
+        }: {
+          row: { original: { duration_ms: number } };
+        }) => <span>{duration_ms}</span>,
       },
       {
         accessor: 'dashboard_id',
@@ -192,7 +198,9 @@ function ActionLogList() {
           row: {
             original: { dashboard_id },
           },
-        }: any) => <span>{dashboard_id}</span>,
+        }: {
+          row: { original: { dashboard_id: string | number } };
+        }) => <span>{dashboard_id}</span>,
       },
       {
         accessor: 'slice_id',
@@ -202,7 +210,9 @@ function ActionLogList() {
           row: {
             original: { slice_id },
           },
-        }: any) => <span>{slice_id}</span>,
+        }: {
+          row: { original: { slice_id: string | number } };
+        }) => <span>{slice_id}</span>,
       },
       {
         accessor: 'json',
@@ -212,7 +222,9 @@ function ActionLogList() {
           row: {
             original: { json },
           },
-        }: any) => (
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => (
           <Typography.Text
             css={css`
               .ant-typography-copy {
@@ -240,7 +252,9 @@ function ActionLogList() {
           row: {
             original: { referrer },
           },
-        }: any) => (
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => (
           <Typography.Text
             css={css`
               .ant-typography-copy {
@@ -269,7 +283,9 @@ function ActionLogList() {
           row: {
             original: { dttm },
           },
-        }: any) => <span>{dttm}</span>,
+        }: {
+          row: { original: { dttm: string } };
+        }) => <span>{dttm}</span>,
       },
     ],
     [],

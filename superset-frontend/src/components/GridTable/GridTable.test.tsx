@@ -26,7 +26,7 @@ const mockedProps = {
     key,
     label: key,
     headerName: key,
-    render: ({ value }: { value: any }) => value,
+    render: ({ value }: { value: unknown }) => value,
   })),
   data: [
     { a: 'a1', b: 'b1', c: 'c1', d: 0 },
@@ -54,7 +54,7 @@ test('sorts strings correctly', () => {
       key,
       label: key,
       headerName: key,
-      render: ({ value }: { value: any }) => value,
+      render: ({ value }: { value: unknown }) => value,
     })),
     data: [{ columnA: 'Bravo' }, { columnA: 'Alpha' }, { columnA: 'Charlie' }],
     height: 500,

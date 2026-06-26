@@ -206,7 +206,7 @@ export const API_ENDPOINTS = {
 };
 
 interface StoreState {
-  user?: any;
+  user?: Record<string, unknown>;
   common?: {
     conf?: {
       SUPERSET_WEBSERVER_TIMEOUT?: number;
@@ -232,7 +232,9 @@ export const createMockStore = (initialState: Partial<StoreState> = {}) =>
       }),
   });
 
-export const createDefaultStoreState = (user: any): StoreState => ({
+export const createDefaultStoreState = (
+  user: Record<string, unknown>,
+): StoreState => ({
   user,
   common: {
     conf: {
@@ -245,7 +247,7 @@ export const createDefaultStoreState = (user: any): StoreState => ({
 });
 
 export const renderDashboardList = (
-  user: any,
+  user: Record<string, unknown>,
   props: Record<string, any> = {},
   storeState: Partial<StoreState> = {},
 ) => {
@@ -326,7 +328,7 @@ export const setupMocks = (
 
   fetchMock.get(
     API_ENDPOINTS.CATCH_ALL,
-    (callLog: any) => {
+    (callLog: Record<string, unknown>) => {
       const reqUrl =
         typeof callLog === 'string' ? callLog : callLog?.url || callLog;
       throw new Error(`[fetchMock catch-all] Unmatched GET: ${reqUrl}`);

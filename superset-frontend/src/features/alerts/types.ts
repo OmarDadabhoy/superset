@@ -208,7 +208,7 @@ export enum ContentType {
 }
 
 export type NativeFilterObject = {
-  cascadeParentIds: any[];
+  cascadeParentIds: string[];
   chartsInScope: number[];
   controlValues: {
     defaultToFirstItem: boolean;
@@ -227,11 +227,11 @@ export type NativeFilterObject = {
   id: string;
   name: string;
   scope: {
-    excluded: any[];
+    excluded: string[];
     rootPath: string[];
   };
   tabsInScope: string[];
-  adhoc_filters: any[];
+  adhoc_filters: Record<string, unknown>[];
   targets: Array<{
     column: {
       name: string;

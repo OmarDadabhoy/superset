@@ -31,7 +31,7 @@ jest.mock('@superset-ui/core', () => ({
   SupersetClient: {
     get: jest.fn(),
   },
-  t: (str: string, ...args: any[]) => {
+  t: (str: string, ...args: unknown[]) => {
     if (args.length > 0 && str.includes('%s')) {
       return str.replace('%s', args[0]);
     }
@@ -43,13 +43,15 @@ jest.mock('@superset-ui/core', () => ({
 // Mock fetchTopNValues utility
 jest.mock('./MatrixifyControl/utils/fetchTopNValues', () => ({
   fetchTopNValues: jest.fn(),
-  extractDimensionValues: jest.fn(values => values.map((v: any) => v.value)),
+  extractDimensionValues: jest.fn(values =>
+    values.map((v: { value: unknown }) => v.value),
+  ),
 }));
 
 // Mock ControlHeader
 jest.mock('src/explore/components/ControlHeader', () => ({
   __esModule: true,
-  default: ({ label, description }: any) => (
+  default: ({ label, description }: { label: string; description: string }) => (
     <div data-testid="control-header">
       {label && <span data-testid="label">{label}</span>}
       {description && <span data-testid="description">{description}</span>}

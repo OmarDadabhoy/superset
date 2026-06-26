@@ -28,7 +28,7 @@ interface UseStreamingExportOptions {
 }
 
 interface StreamingExportPayload {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 type StreamingExportSource = 'chart' | 'sqllab';

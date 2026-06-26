@@ -913,7 +913,7 @@ const DatabaseModal: FunctionComponent<DatabaseModalProps> = ({
     setHasValidated(false);
     dbConfigExtraExtension
       ?.onSave(extraExtensionComponentState, db)
-      .then(({ error }: { error: any }) => {
+      .then(({ error }: { error: unknown }) => {
         if (error) {
           dbConfigExtraExtensionOnSaveError = error;
           addDangerToast(error);
@@ -1029,7 +1029,7 @@ const DatabaseModal: FunctionComponent<DatabaseModalProps> = ({
         if (onDatabaseAdd) onDatabaseAdd();
         dbConfigExtraExtension
           ?.onSave(extraExtensionComponentState, db)
-          .then(({ error }: { error: any }) => {
+          .then(({ error }: { error: unknown }) => {
             if (error) {
               dbConfigExtraExtensionOnSaveError = error;
               addDangerToast(error);
@@ -1055,7 +1055,7 @@ const DatabaseModal: FunctionComponent<DatabaseModalProps> = ({
         if (onDatabaseAdd) onDatabaseAdd();
         dbConfigExtraExtension
           ?.onSave(extraExtensionComponentState, db)
-          .then(({ error }: { error: any }) => {
+          .then(({ error }: { error: unknown }) => {
             if (error) {
               dbConfigExtraExtensionOnSaveError = error;
               addDangerToast(error);
@@ -1968,9 +1968,10 @@ const DatabaseModal: FunctionComponent<DatabaseModalProps> = ({
               value: target.value,
             })
           }
-          onEditorChange={(payload: { name: string; json: any }) =>
-            handleChangeWithValidation(ActionType.EditorChange, payload)
-          }
+          onEditorChange={(payload: {
+            name: string;
+            json: Record<string, unknown>;
+          }) => handleChangeWithValidation(ActionType.EditorChange, payload)}
           onExtraInputChange={(
             e: CheckboxChangeEvent | React.ChangeEvent<HTMLInputElement>,
           ) => {
@@ -1982,7 +1983,10 @@ const DatabaseModal: FunctionComponent<DatabaseModalProps> = ({
               value: target.value,
             });
           }}
-          onExtraEditorChange={(payload: { name: string; json: any }) =>
+          onExtraEditorChange={(payload: {
+            name: string;
+            json: Record<string, unknown>;
+          }) =>
             handleChangeWithValidation(ActionType.ExtraEditorChange, payload)
           }
         />
@@ -2217,7 +2221,10 @@ const DatabaseModal: FunctionComponent<DatabaseModalProps> = ({
                     value: target.value,
                   })
                 }
-                onEditorChange={(payload: { name: string; json: any }) =>
+                onEditorChange={(payload: {
+                  name: string;
+                  json: Record<string, unknown>;
+                }) =>
                   handleChangeWithValidation(ActionType.EditorChange, payload)
                 }
                 onExtraInputChange={(
@@ -2231,7 +2238,10 @@ const DatabaseModal: FunctionComponent<DatabaseModalProps> = ({
                     value: target.value,
                   });
                 }}
-                onExtraEditorChange={(payload: { name: string; json: any }) =>
+                onExtraEditorChange={(payload: {
+                  name: string;
+                  json: Record<string, unknown>;
+                }) =>
                   handleChangeWithValidation(
                     ActionType.ExtraEditorChange,
                     payload,

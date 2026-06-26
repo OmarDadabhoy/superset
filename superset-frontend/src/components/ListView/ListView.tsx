@@ -277,7 +277,7 @@ const ViewModeToggle = ({
   </ViewModeContainer>
 );
 export interface ListViewProps<T extends object = any> {
-  columns: any[];
+  columns: Record<string, unknown>[];
   data: T[];
   count: number;
   pageSize: number;
@@ -292,13 +292,13 @@ export interface ListViewProps<T extends object = any> {
   bulkActions?: Array<{
     key: string;
     name: ReactNode;
-    onSelect: (rows: any[]) => any;
+    onSelect: (rows: Record<string, unknown>[]) => void;
     type?: 'primary' | 'secondary' | 'danger';
-    hidden?: (rows: any[]) => boolean;
+    hidden?: (rows: Record<string, unknown>[]) => boolean;
   }>;
   bulkSelectEnabled?: boolean;
   disableBulkSelect?: () => void;
-  renderBulkSelectCopy?: (selects: any[]) => ReactNode;
+  renderBulkSelectCopy?: (selects: Record<string, unknown>[]) => ReactNode;
   renderCard?: (row: T & { loading: boolean }) => ReactNode;
   cardSortSelectOptions?: Array<CardSortSelectOption>;
   defaultViewMode?: ViewModeType;
@@ -517,7 +517,10 @@ export function ListView<T extends object = any>({
                         .filter(
                           action =>
                             !action.hidden?.(
-                              selectedFlatRows.map((r: any) => r.original),
+                              selectedFlatRows.map(
+                                (r: { original: Record<string, unknown> }) =>
+                                  r.original,
+                              ),
                             ),
                         )
                         .map(action => (
@@ -529,7 +532,10 @@ export function ListView<T extends object = any>({
                             cta
                             onClick={() =>
                               action.onSelect(
-                                selectedFlatRows.map((r: any) => r.original),
+                                selectedFlatRows.map(
+                                  (r: { original: Record<string, unknown> }) =>
+                                    r.original,
+                                ),
                               )
                             }
                           >
@@ -611,7 +617,9 @@ export function ListView<T extends object = any>({
                   bulkSelectEnabled={bulkSelectEnabled}
                   selectedFlatRows={selectedFlatRows}
                   toggleRowSelected={(rowId, value) => {
-                    const row = rows.find((r: any) => r.id === rowId);
+                    const row = rows.find(
+                      (r: { id: string | number }) => r.id === rowId,
+                    );
                     if (row) {
                       prepareRow(row);
                       (row as any).toggleRowSelected(value);

@@ -156,32 +156,49 @@ function RolesList({ addDangerToast, addSuccessToast, user }: RolesListProps) {
           row: {
             original: { name },
           },
-        }: any) => <span>{name}</span>,
+        }: {
+          row: { original: { name: string } };
+        }) => <span>{name}</span>,
       },
       {
         accessor: 'user_ids',
         id: 'user_ids',
         Header: t('Users'),
         hidden: true,
-        Cell: ({ row: { original } }: any) => original.user_ids.join(', '),
+        Cell: ({
+          row: { original },
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => original.user_ids.join(', '),
       },
       {
         accessor: 'group_ids',
         id: 'group_ids',
         Header: t('Groups'),
         hidden: true,
-        Cell: ({ row: { original } }: any) => original.group_ids.join(', '),
+        Cell: ({
+          row: { original },
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => original.group_ids.join(', '),
       },
       {
         accessor: 'permission_ids',
         id: 'permission_ids',
         Header: t('Permissions'),
         hidden: true,
-        Cell: ({ row: { original } }: any) =>
-          original.permission_ids.join(', '),
+        Cell: ({
+          row: { original },
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => original.permission_ids.join(', '),
       },
       {
-        Cell: ({ row: { original } }: any) => {
+        Cell: ({
+          row: { original },
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => {
           const handleEdit = () => {
             setCurrentRole(original);
             openModal(ModalType.EDIT);

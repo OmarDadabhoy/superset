@@ -25,7 +25,7 @@ export interface FetchTopNValuesParams {
   metric: string;
   limit: number;
   sortAscending?: boolean;
-  filters?: any[];
+  filters?: Record<string, unknown>[];
   timeRange?: string;
 }
 
@@ -72,7 +72,7 @@ export async function fetchTopNValues({
 
     // Extract values from the response data
     // The data is typically an array of objects with column names as keys
-    return result.data.map((row: any) => ({
+    return result.data.map((row: Record<string, unknown>) => ({
       value: row[column],
       metricValue: row[metric],
     }));

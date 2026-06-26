@@ -84,7 +84,7 @@ interface StylingSectionProps {
   customCss: string;
   hasCustomLabelsColor: boolean;
   showChartTimestamps: boolean;
-  onThemeChange: (value: any) => void;
+  onThemeChange: (value: string | number | null) => void;
   onColorSchemeChange: (
     colorScheme: string,
     options?: { updateMetadata?: boolean },

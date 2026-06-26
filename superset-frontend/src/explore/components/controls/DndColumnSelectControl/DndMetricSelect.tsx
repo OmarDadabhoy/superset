@@ -119,7 +119,7 @@ const getOptionsForSavedMetrics = (
 
 type ValueType = Metric | AdhocMetric | QueryFormMetric;
 
-const DndMetricSelect = (props: any) => {
+const DndMetricSelect = (props: Record<string, unknown>) => {
   const { onChange, multi, datasource, savedMetrics } = props;
 
   const extra = useMemo<{ disallow_adhoc_metrics?: boolean }>(() => {

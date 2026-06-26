@@ -65,7 +65,7 @@ export enum ContextMenuItem {
 export interface ChartContextMenuProps {
   id: number;
   formData: QueryFormData;
-  onSelection: (args?: any) => void;
+  onSelection: (args?: unknown) => void;
   onClose: () => void;
   additionalConfig?: {
     crossFilter?: Record<string, any>;

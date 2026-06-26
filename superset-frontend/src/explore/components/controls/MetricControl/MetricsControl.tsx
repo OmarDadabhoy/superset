@@ -32,11 +32,10 @@ import MetricDefinitionValue from './MetricDefinitionValue';
 import AdhocMetric from './AdhocMetric';
 import AdhocMetricPopoverTrigger from './AdhocMetricPopoverTrigger';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getOptionsForSavedMetrics(
-  savedMetrics: any,
-  currentMetricValues: any,
-  currentMetric: any,
+  savedMetrics: { metric_name: string }[],
+  currentMetricValues: unknown,
+  currentMetric: unknown,
 ) {
   return (
     savedMetrics?.filter((savedMetric: { metric_name: string }) =>
@@ -48,15 +47,15 @@ function getOptionsForSavedMetrics(
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isDictionaryForAdhocMetric(value: any) {
+function isDictionaryForAdhocMetric(
+  value: Record<string, unknown> | null | undefined,
+) {
   return value && !(value instanceof AdhocMetric) && value.expressionType;
 }
 
 // adhoc metrics are stored as dictionaries in URL params. We convert them back into the
 // AdhocMetric class for typechecking, consistency and instance method access.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function coerceAdhocMetrics(value: any) {
+function coerceAdhocMetrics(value: unknown) {
   if (!value) {
     return [];
   }
@@ -66,8 +65,7 @@ function coerceAdhocMetrics(value: any) {
     }
     return [value];
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return value.map((val: any) => {
+  return value.map((val: Record<string, unknown>) => {
     if (isDictionaryForAdhocMetric(val)) {
       return new AdhocMetric(val);
     }
@@ -77,26 +75,21 @@ function coerceAdhocMetrics(value: any) {
 
 const emptySavedMetric = { metric_name: '', expression: '' };
 
-// TODO: use typeguards to distinguish saved metrics from adhoc metrics
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getMetricsMatchingCurrentDataset = (
-  value: any,
-  columns: any,
-  savedMetrics: any,
+  value: unknown,
+  columns: { column_name: string }[],
+  savedMetrics: { metric_name: string }[],
 ) =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ensureIsArray(value).filter((metric: any) => {
+  ensureIsArray(value).filter((metric: string | Record<string, unknown>) => {
     if (typeof metric === 'string' || metric.metric_name) {
       return savedMetrics?.some(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (savedMetric: any) =>
+        (savedMetric: { metric_name: string }) =>
           savedMetric.metric_name === metric ||
           savedMetric.metric_name === metric.metric_name,
       );
     }
     return columns?.some(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (column: any) =>
+      (column: { column_name: string }) =>
         !metric.column || metric.column.column_name === column.column_name,
     );
   });
@@ -128,8 +121,7 @@ const MetricsControl = ({
   const prevSavedMetrics = usePrevious(savedMetrics);
 
   const handleChange = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (opts: any) => {
+    (opts: unknown) => {
       // if clear out options
       if (opts === null) {
         onChange(null);
@@ -138,8 +130,7 @@ const MetricsControl = ({
 
       const transformedOpts = ensureIsArray(opts);
       const optionValues = transformedOpts
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .map((option: any) => {
+        .map((option: string | Record<string, unknown>) => {
           // pre-defined metric
           if (option.metric_name) {
             return option.metric_name;
@@ -162,10 +153,11 @@ const MetricsControl = ({
   );
 
   const onMetricEdit = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (changedMetric: any, oldMetric: any) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const newValue = value.map((val: any) => {
+    (
+      changedMetric: unknown,
+      oldMetric: { metric_name?: string; optionName?: string },
+    ) => {
+      const newValue = value.map((val: string | Record<string, unknown>) => {
         if (
           // compare saved metrics
           val === oldMetric.metric_name ||

@@ -184,7 +184,7 @@ export function getAllControlsState(
             formData[name],
           );
         } else if (React.isValidElement(field)) {
-          const props = field.props as { name: string; [key: string]: any };
+          const props = field.props as { name: string; [key: string]: unknown };
           const { name, ...configProps } = props;
           controlsState[name] = getControlStateFromControlConfig(
             configProps as ControlConfig<any>,

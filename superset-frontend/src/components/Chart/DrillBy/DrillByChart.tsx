@@ -27,7 +27,7 @@ import { css, useTheme } from '@apache-superset/core/theme';
 import { Dataset } from '../types';
 
 interface DrillByChartProps {
-  formData: BaseFormData & { [key: string]: any };
+  formData: BaseFormData & { [key: string]: unknown };
   result: QueryData[];
   dataset: Dataset;
   onContextMenu: (

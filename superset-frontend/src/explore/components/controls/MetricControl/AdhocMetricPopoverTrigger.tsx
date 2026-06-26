@@ -107,7 +107,7 @@ class AdhocMetricPopoverTrigger extends PureComponent<
     };
   }
 
-  onLabelChange(e: any) {
+  onLabelChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { verbose_name, metric_name } = this.props.savedMetric;
     const defaultMetricLabel = this.props.adhocMetric?.getDefaultLabel();
     const label = e.target.value;

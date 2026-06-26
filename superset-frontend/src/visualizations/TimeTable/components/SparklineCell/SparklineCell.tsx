@@ -42,7 +42,7 @@ import { SparkType } from '../../types';
 
 interface Entry {
   time: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface SparklineCellProps {

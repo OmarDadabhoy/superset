@@ -24,7 +24,7 @@ const datasetsOwnersEndpoint = 'glob:*/api/v1/dataset/related/owners*';
 
 jest.mock('@superset-ui/core/components/Select/Select', () => ({
   __esModule: true,
-  default: (props: any) => (
+  default: (props: Record<string, unknown>) => (
     <div
       data-test="select-test"
       data-value={JSON.stringify(props.value)}

@@ -91,8 +91,8 @@ export type LocalStorageValues = {
  * */
 export function dangerouslyGetItemDoNotUse(
   key: string,
-  defaultValue: any,
-): any {
+  defaultValue: unknown,
+): unknown {
   try {
     const value = localStorage.getItem(key);
     if (value === null) {
@@ -111,7 +111,7 @@ export function dangerouslyGetItemDoNotUse(
  * Instead, use getItem and setItem. Any legacy uses should be updated/migrated in future
  * Superset versions (as they may require breaking changes).
  * */
-export function dangerouslySetItemDoNotUse(key: string, value: any): void {
+export function dangerouslySetItemDoNotUse(key: string, value: unknown): void {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch {

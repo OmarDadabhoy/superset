@@ -36,7 +36,7 @@ export interface ITableColumn {
  * @param item Object to check if it matches the ITableColumn interface
  * @returns boolean true if matches interface
  */
-export const isITableColumn = (item: any): boolean => {
+export const isITableColumn = (item: unknown): boolean => {
   let match = true;
   const BASE_ERROR =
     'The object provided to isITableColumn does match the interface.';
@@ -67,7 +67,7 @@ export interface IDatabaseTable {
  * @param item Object to check if it matches the isIDatabaseTable interface
  * @returns boolean true if matches interface
  */
-export const isIDatabaseTable = (item: any): boolean => {
+export const isIDatabaseTable = (item: unknown): boolean => {
   let match = true;
   if (typeof item?.name !== 'string') {
     match = false;
@@ -76,16 +76,18 @@ export const isIDatabaseTable = (item: any): boolean => {
     match = false;
   }
   if (match && item.columns.length > 0) {
-    const invalid = item.columns.some((column: any, index: number) => {
-      const valid = isITableColumn(column);
-      if (!valid) {
-        // eslint-disable-next-line no-console
-        console.error(
-          `The provided object does not match the IDatabaseTable interface. columns[${index}] is invalid and does not match the ITableColumn interface`,
-        );
-      }
-      return !valid;
-    });
+    const invalid = item.columns.some(
+      (column: Record<string, unknown>, index: number) => {
+        const valid = isITableColumn(column);
+        if (!valid) {
+          // eslint-disable-next-line no-console
+          console.error(
+            `The provided object does not match the IDatabaseTable interface. columns[${index}] is invalid and does not match the ITableColumn interface`,
+          );
+        }
+        return !valid;
+      },
+    );
     match = !invalid;
   }
   return match;

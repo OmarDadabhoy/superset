@@ -26,7 +26,7 @@ interface StyledFormItemWithTipProps {
   tip: string;
   name: string;
   children: ReactNode;
-  rules?: any[];
+  rules?: Record<string, unknown>[];
 }
 
 const StyledFormItemWithTip: FC<StyledFormItemWithTipProps> = ({

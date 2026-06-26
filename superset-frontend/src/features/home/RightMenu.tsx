@@ -255,7 +255,9 @@ const RightMenu = ({
       // with allow_file_upload set as True which is not possible from now on
       const allowedDatabasesWithFileUpload =
         json?.result?.filter(
-          (database: any) => database?.engine_information?.supports_file_upload,
+          (database: {
+            engine_information?: { supports_file_upload?: boolean };
+          }) => database?.engine_information?.supports_file_upload,
         ) || [];
       setAllowUploads(allowedDatabasesWithFileUpload?.length >= 1);
     });
@@ -284,7 +286,7 @@ const RightMenu = ({
     }
   }, [canDatabase, canDataset]);
 
-  const handleMenuSelection = (itemChose: any) => {
+  const handleMenuSelection = (itemChose: { key: string }) => {
     if (itemChose.key === GlobalMenuDataOptions.DbConnection) {
       setShowDatabaseModal(true);
     } else if (itemChose.key === GlobalMenuDataOptions.GoogleSheets) {

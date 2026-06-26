@@ -158,14 +158,25 @@ function RowLevelSecurityList(props: RLSProps) {
               changed_by: changedBy,
             },
           },
-        }: any) => <ModifiedInfo date={changedOn} user={changedBy} />,
+        }: {
+          row: {
+            original: {
+              changed_on_delta_humanized: string;
+              changed_by: unknown;
+            };
+          };
+        }) => <ModifiedInfo date={changedOn} user={changedBy} />,
         Header: t('Last modified'),
         accessor: 'changed_on_delta_humanized',
         size: 'xl',
         id: 'changed_on_delta_humanized',
       },
       {
-        Cell: ({ row: { original } }: any) => {
+        Cell: ({
+          row: { original },
+        }: {
+          row: { original: Record<string, unknown> };
+        }) => {
           const handleDelete = () =>
             handleRuleDelete(
               original,

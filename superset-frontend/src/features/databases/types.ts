@@ -292,22 +292,24 @@ export type CustomEventHandlerType = EventHandler<
 export interface FieldPropTypes {
   required: boolean;
   hasTooltip?: boolean;
-  tooltipText?: (value: any) => string;
+  tooltipText?: (value: string) => string;
   placeholder?: string;
   onParametersChange: (event: CustomParametersChangeType) => void;
-  onParametersUploadFileChange: (value: any) => string;
+  onParametersUploadFileChange: (value: Record<string, unknown>) => string;
   changeMethods: {
     onParametersChange: (event: CustomParametersChangeType) => void;
   } & {
-    onChange: (value: any) => string;
+    onChange: (value: Record<string, unknown>) => string;
   } & {
-    onQueryChange: (value: any) => string;
-  } & { onParametersUploadFileChange: (value: any) => string } & {
+    onQueryChange: (value: Record<string, unknown>) => string;
+  } & {
+    onParametersUploadFileChange: (value: Record<string, unknown>) => string;
+  } & {
     onAddTableCatalog: () => void;
     onRemoveTableCatalog: (idx: number) => void;
   } & {
-    onExtraInputChange: (value: any) => void;
-    onEncryptedExtraInputChange: (value: any) => void;
+    onExtraInputChange: (value: string) => void;
+    onEncryptedExtraInputChange: (value: string) => void;
     onClearEncryptedExtraKey: (name: string) => void;
     onSSHTunnelParametersChange: CustomEventHandlerType;
   };
@@ -317,7 +319,7 @@ export interface FieldPropTypes {
   db?: DatabaseObject;
   dbModel?: DatabaseForm;
   field: string;
-  default_value?: any;
+  default_value?: string | number | boolean | null;
   description?: string;
   isEditMode?: boolean;
   sslForced?: boolean;

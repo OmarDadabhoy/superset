@@ -22,7 +22,7 @@ import type { ColumnConfig } from '../../types';
 // eslint-disable-next-line no-restricted-globals -- TODO: Migrate from describe blocks
 describe('sortNumberWithMixedTypes', () => {
   const createMockRow = (
-    value: any,
+    value: unknown,
     columnOverrides: Partial<ColumnConfig> = {},
   ) => ({
     values: {

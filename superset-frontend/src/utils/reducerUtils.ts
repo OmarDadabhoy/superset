@@ -20,7 +20,7 @@ import { nanoid } from 'nanoid';
 
 interface ObjectWithId {
   id?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface StateWithObject {
