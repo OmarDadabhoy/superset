@@ -241,6 +241,10 @@ RUN --mount=type=cache,target=${SUPERSET_HOME}/.cache/uv \
 # Install the superset package
 RUN --mount=type=cache,target=${SUPERSET_HOME}/.cache/uv \
     uv pip install -e .
+# Include the Postgres driver: the Helm chart defaults to PostgreSQL for the
+# metadata database, so psycopg2-binary must ship in the lean image.
+RUN --mount=type=cache,target=${SUPERSET_HOME}/.cache/uv \
+    uv pip install .[postgres]
 RUN python -m compileall /app/superset
 
 USER superset
