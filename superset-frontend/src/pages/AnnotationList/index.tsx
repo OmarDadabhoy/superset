@@ -18,7 +18,12 @@
  */
 
 import { useMemo, useState, useEffect, useCallback } from 'react';
-import { useParams, Link, useHistory } from 'react-router-dom';
+import {
+  useParams,
+  Link,
+  useNavigate,
+  useInRouterContext,
+} from 'react-router-dom';
 import { t } from '@apache-superset/core/translation';
 import { SupersetClient, getClientErrorObject } from '@superset-ui/core';
 import { css, styled } from '@apache-superset/core/theme';
@@ -247,14 +252,7 @@ function AnnotationList({
     },
   });
 
-  let hasHistory = true;
-
-  try {
-    useHistory();
-  } catch (err) {
-    // If error is thrown, we know not to use <Link> in render
-    hasHistory = false;
-  }
+  const hasHistory = useInRouterContext();
 
   const emptyState = {
     title: t('No annotation yet'),

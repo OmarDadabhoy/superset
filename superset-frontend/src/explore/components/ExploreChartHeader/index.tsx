@@ -17,7 +17,7 @@
  * under the License.
  */
 import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { QueryFormData, JsonObject } from '@superset-ui/core';
 import {
@@ -60,7 +60,7 @@ interface ExploreActions {
   saveFaveStar: (sliceId: number, isStarred: boolean) => void;
   redirectSQLLab: (
     formData: QueryFormData,
-    history?: ReturnType<typeof useHistory> | false,
+    navigate?: ReturnType<typeof useNavigate> | false,
   ) => void;
 }
 
@@ -187,14 +187,14 @@ const ExploreChartHeader: FC<ExploreChartHeaderProps> = ({
     setCurrentReportDeleting(null);
   };
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const { redirectSQLLab } = actions;
 
   const redirectToSQLLab = useCallback(
     (redirectFormData: QueryFormData, openNewWindow = false) => {
-      redirectSQLLab(redirectFormData, !openNewWindow && history);
+      redirectSQLLab(redirectFormData, !openNewWindow && navigate);
     },
-    [redirectSQLLab, history],
+    [redirectSQLLab, navigate],
   );
 
   const [menu, isDropdownVisible, setIsDropdownVisible, streamingExportState] =

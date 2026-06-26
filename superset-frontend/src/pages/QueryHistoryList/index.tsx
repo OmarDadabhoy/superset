@@ -17,7 +17,7 @@
  * under the License.
  */
 import { useMemo, useState, useCallback, ReactElement, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { t } from '@apache-superset/core/translation';
 import { QueryState, SupersetClient } from '@superset-ui/core';
 import { css, styled, useTheme } from '@apache-superset/core/theme';
@@ -116,7 +116,7 @@ function QueryList({ addDangerToast }: QueryListProps) {
     useState<QueryObject>();
 
   const theme = useTheme();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   // Preload SQL language since this component will definitely display SQL
   useEffect(() => {
@@ -493,7 +493,7 @@ function QueryList({ addDangerToast }: QueryListProps) {
           query={queryCurrentlyPreviewing}
           queries={queries}
           fetchData={handleQueryPreview}
-          openInSqlLab={(id: number) => history.push(`/sqllab?queryId=${id}`)}
+          openInSqlLab={(id: number) => navigate(`/sqllab?queryId=${id}`)}
           show
         />
       )}

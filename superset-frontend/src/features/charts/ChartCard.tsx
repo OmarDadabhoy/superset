@@ -19,7 +19,7 @@
 import { t } from '@apache-superset/core/translation';
 import { isFeatureEnabled, FeatureFlag } from '@superset-ui/core';
 import { css } from '@apache-superset/core/theme';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   ConfirmStatusChange,
   Button,
@@ -72,7 +72,7 @@ export default function ChartCard({
   handleBulkChartExport,
   getData,
 }: ChartCardProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const canEdit = hasPerm('can_write');
   const canDelete = hasPerm('can_write');
   const canExport = hasPerm('can_export');
@@ -170,7 +170,7 @@ export default function ChartCard({
     <CardStyles
       onClick={() => {
         if (!bulkSelectEnabled && chart.url) {
-          history.push(chart.url);
+          navigate(chart.url);
         }
       }}
     >

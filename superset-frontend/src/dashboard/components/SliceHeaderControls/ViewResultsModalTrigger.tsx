@@ -17,7 +17,7 @@
  * under the License.
  */
 import { ReactChild, RefObject, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { t } from '@apache-superset/core/translation';
 import { css, useTheme } from '@apache-superset/core/theme';
 import { Button, ModalTrigger } from '@superset-ui/core/components';
@@ -37,8 +37,8 @@ export const ViewResultsModalTrigger = ({
   modalBody: ReactChild;
   modalRef?: RefObject<any>;
 }) => {
-  const history = useHistory();
-  const exploreChart = () => history.push(exploreUrl);
+  const navigate = useNavigate();
+  const exploreChart = () => navigate(exploreUrl);
   const theme = useTheme();
   const handleCloseModal = useCallback(() => {
     modalRef?.current?.close();

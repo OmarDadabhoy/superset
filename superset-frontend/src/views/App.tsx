@@ -19,9 +19,9 @@
 import { Suspense, useEffect } from 'react';
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
-  Redirect,
+  Navigate,
   useLocation,
 } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
@@ -90,22 +90,26 @@ const CHAT_PANEL_MIN_WIDTH = 280;
 const RouteSwitch = () => {
   const theme = useTheme();
   return (
-    <Switch>
+    <Routes>
       {routes.map(({ path, Component, props = {}, Fallback = Loading }) => (
-        <Route path={path} key={path}>
-          <Suspense fallback={<Fallback />}>
-            <ErrorBoundary
-              css={css`
-                margin: ${theme.sizeUnit * 4}px;
-              `}
-            >
-              <Component user={bootstrapData.user} {...props} />
-            </ErrorBoundary>
-          </Suspense>
-        </Route>
+        <Route
+          path={path}
+          key={path}
+          element={
+            <Suspense fallback={<Fallback />}>
+              <ErrorBoundary
+                css={css`
+                  margin: ${theme.sizeUnit * 4}px;
+                `}
+              >
+                <Component user={bootstrapData.user} {...props} />
+              </ErrorBoundary>
+            </Suspense>
+          }
+        />
       ))}
-      <Redirect from="/" to="/superset/welcome/" exact />
-    </Switch>
+      <Route path="/" element={<Navigate to="/superset/welcome/" replace />} />
+    </Routes>
   );
 };
 

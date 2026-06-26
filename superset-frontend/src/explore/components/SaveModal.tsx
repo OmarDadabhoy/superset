@@ -22,7 +22,7 @@ import { Dispatch } from 'redux';
 import { nanoid } from 'nanoid';
 import rison from 'rison';
 import { connect } from 'react-redux';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useNavigate, NavigateFunction } from 'react-router-dom';
 import {
   InfoTooltip,
   Button,
@@ -71,7 +71,7 @@ import { CHART_WIDTH, CHART_HEIGHT } from 'src/dashboard/constants';
 // Session storage key for recent dashboard
 const SK_DASHBOARD_ID = 'save_chart_recent_dashboard';
 
-interface SaveModalProps extends RouteComponentProps {
+interface SaveModalProps {
   addDangerToast: (msg: string) => void;
   actions: Record<string, any>;
   form_data?: Record<string, any>;
@@ -84,6 +84,7 @@ interface SaveModalProps extends RouteComponentProps {
   dashboardId: '' | number | null;
   isVisible: boolean;
   dispatch: Dispatch;
+  navigate: NavigateFunction;
   theme: SupersetTheme;
   metadata?: ExplorePageInitialData['metadata'];
 }
@@ -376,12 +377,13 @@ class SaveModal extends Component<SaveModalProps, SaveModalState> {
           url += `#${this.state.selectedTab.value}`;
         }
         this.props.dispatch(removeChartState(value.id));
-        this.props.history.push(url);
+        this.props.navigate(url);
         return;
       }
       const searchParams = this.handleRedirect(window.location.search, value);
-      this.props.history.replace(`/explore/?${searchParams.toString()}`, {
-        saveAction: this.state.action,
+      this.props.navigate(`/explore/?${searchParams.toString()}`, {
+        replace: true,
+        state: { saveAction: this.state.action },
       });
 
       this.setState({ isLoading: false });
@@ -880,7 +882,14 @@ function mapStateToProps({
   };
 }
 
-export default withRouter(connect(mapStateToProps)(withTheme(SaveModal)));
+const ConnectedSaveModal = connect(mapStateToProps)(withTheme(SaveModal));
+
+function SaveModalWithRouter(props: Record<string, unknown>) {
+  const navigate = useNavigate();
+  return <ConnectedSaveModal {...props} navigate={navigate} />;
+}
+
+export default SaveModalWithRouter;
 
 // User for testing purposes need to revisit once we convert this to functional component
 export { SaveModal as PureSaveModal };

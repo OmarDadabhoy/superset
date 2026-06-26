@@ -33,7 +33,7 @@ import {
   Key,
 } from 'react';
 import type { CellProps } from 'react-table';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import rison from 'rison';
 import {
   createFetchRelated,
@@ -200,7 +200,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
   addSuccessToast,
   user,
 }) => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const theme = useTheme();
   const {
     state: { bulkSelectEnabled },
@@ -1213,7 +1213,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
                 {
                   key: 'dataset',
                   label: t('Dataset'),
-                  onClick: () => history.push('/dataset/add/'),
+                  onClick: () => navigate('/dataset/add/'),
                 },
                 {
                   key: 'semantic-view',
@@ -1246,7 +1246,7 @@ const DatasetList: FunctionComponent<DatasetListProps> = ({
         icon: <Icons.PlusOutlined iconSize="m" />,
         name: datasetLabel(),
         onClick: () => {
-          history.push('/dataset/add/');
+          navigate('/dataset/add/');
         },
         buttonStyle: 'primary',
       });

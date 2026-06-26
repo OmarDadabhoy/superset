@@ -21,7 +21,7 @@ import { useMemo, useState } from 'react';
 import rison from 'rison';
 import { t } from '@apache-superset/core/translation';
 import { SupersetClient } from '@superset-ui/core';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate, useInRouterContext } from 'react-router-dom';
 import { useListViewResource } from 'src/views/CRUD/hooks';
 import { createFetchRelated, createErrorHandler } from 'src/views/CRUD/utils';
 import withToasts from 'src/components/MessageToasts/withToasts';
@@ -140,14 +140,7 @@ function AnnotationLayersList({
             original: { id, name },
           },
         }: any) => {
-          let hasHistory = true;
-
-          try {
-            useHistory();
-          } catch (err) {
-            // If error is thrown, we know not to use <Link> in render
-            hasHistory = false;
-          }
+          const hasHistory = useInRouterContext();
 
           if (hasHistory) {
             return <Link to={`/annotationlayer/${id}/annotation`}>{name}</Link>;

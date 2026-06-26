@@ -24,7 +24,7 @@ import { styled } from '@apache-superset/core/theme';
 import { withTheme, Theme } from '@emotion/react';
 import { getUrlParam } from 'src/utils/urlUtils';
 import { FilterPlugins, URL_PARAMS } from 'src/constants';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, NavigateFunction } from 'react-router-dom';
 import {
   AsyncSelect,
   Button,
@@ -49,7 +49,8 @@ import {
   datasetLabelLower,
 } from 'src/features/semanticLayers/label';
 
-export interface ChartCreationProps extends RouteComponentProps {
+export interface ChartCreationProps {
+  navigate: NavigateFunction;
   user: UserWithPermissionsAndRoles;
   addSuccessToast: (arg: string) => void;
   theme: Theme;
@@ -228,7 +229,7 @@ export class ChartCreation extends PureComponent<
   }
 
   gotoSlice() {
-    this.props.history.push(this.exploreUrl());
+    this.props.navigate(this.exploreUrl());
   }
 
   changeDatasource(datasource: { label: string | ReactNode; value: string }) {
@@ -397,4 +398,11 @@ export class ChartCreation extends PureComponent<
   }
 }
 
-export default withRouter(withToasts(withTheme(ChartCreation)));
+const WrappedChartCreation = withToasts(withTheme(ChartCreation));
+
+function ChartCreationWithRouter(props: Record<string, unknown>) {
+  const navigate = useNavigate();
+  return <WrappedChartCreation {...props} navigate={navigate} />;
+}
+
+export default ChartCreationWithRouter;

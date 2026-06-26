@@ -45,7 +45,7 @@ import CodeSyntaxHighlighter, {
   SupportedLanguage,
   preloadLanguages,
 } from '@superset-ui/core/components/CodeSyntaxHighlighter';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ExplorePageState } from 'src/explore/types';
 
 export interface ViewQueryProps {
@@ -86,7 +86,7 @@ const ViewQuery: FC<ViewQueryProps> = props => {
   );
   const [formattedSQL, setFormattedSQL] = useState<string>();
   const [showFormatSQL, setShowFormatSQL] = useState(true);
-  const history = useHistory();
+  const navigate = useNavigate();
   const currentSQL = (showFormatSQL ? formattedSQL : sql) ?? sql;
   const canAccessSQLLab = useSelector((state: RootState) =>
     findPermission('menu_access', 'SQL Lab', state.user?.roles),
@@ -147,10 +147,10 @@ const ViewQuery: FC<ViewQueryProps> = props => {
           '_blank',
         );
       } else {
-        history.push({ pathname: '/sqllab', state: { requestedQuery } });
+        navigate({ pathname: '/sqllab', state: { requestedQuery } });
       }
     },
-    [history, datasource, currentSQL],
+    [datasource, currentSQL],
   );
 
   useEffect(() => {

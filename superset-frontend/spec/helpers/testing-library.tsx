@@ -40,7 +40,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndContext } from '@dnd-kit/core';
 import reducerIndex from 'spec/helpers/reducerIndex';
 import { QueryParamProvider } from 'use-query-params';
-import { ReactRouter5Adapter } from 'use-query-params/adapters/react-router-5';
+import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import { configureStore, Store } from '@reduxjs/toolkit';
 import { api } from 'src/hooks/apiResources/queryApi';
 import userEvent from '@testing-library/user-event';
@@ -116,7 +116,7 @@ export function createWrapper(options?: Options) {
 
     if (useQueryParams) {
       result = (
-        <QueryParamProvider adapter={ReactRouter5Adapter}>
+        <QueryParamProvider adapter={ReactRouter6Adapter}>
           {result}
         </QueryParamProvider>
       );

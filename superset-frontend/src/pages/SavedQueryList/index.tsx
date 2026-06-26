@@ -25,7 +25,7 @@ import {
 } from '@superset-ui/core';
 import { styled } from '@apache-superset/core/theme';
 import { useCallback, useMemo, useState, MouseEvent } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import rison from 'rison';
 import {
   createErrorHandler,
@@ -156,7 +156,7 @@ function SavedQueryList({
     sshTunnelPrivateKeyPasswordFields,
     setSSHTunnelPrivateKeyPasswordFields,
   ] = useState<string[]>([]);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const openSavedQueryImportModal = () => {
     showImportModal(true);
@@ -235,7 +235,7 @@ function SavedQueryList({
     onClick: () => {
       // React Router's basename already includes the application root; passing
       // a relative path ensures correct navigation under subdirectory deployments.
-      history.push('/sqllab?new=true');
+      navigate('/sqllab?new=true');
     },
   });
 
@@ -259,7 +259,7 @@ function SavedQueryList({
     } else {
       // React Router's basename already includes the application root; passing
       // a relative path ensures correct navigation under subdirectory deployments.
-      history.push(`/sqllab?savedQueryId=${id}`);
+      navigate(`/sqllab?savedQueryId=${id}`);
     }
   };
 

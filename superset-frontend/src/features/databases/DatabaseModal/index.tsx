@@ -33,7 +33,7 @@ import {
 } from 'react';
 import { CheckboxChangeEvent } from '@superset-ui/core/components/Checkbox/types';
 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { setItem, LocalStorageKeys } from 'src/utils/localStorageHelpers';
 import Tabs from '@superset-ui/core/components/Tabs';
 import {
@@ -751,7 +751,7 @@ const DatabaseModal: FunctionComponent<DatabaseModalProps> = ({
       (DB: DatabaseObject) => DB.backend === engine || DB.engine === engine,
     )?.parameters !== undefined;
   const showDBError = validationErrors || dbErrors;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const dbModel: DatabaseForm =
     // TODO: we need a centralized engine in one place
@@ -887,7 +887,7 @@ const DatabaseModal: FunctionComponent<DatabaseModalProps> = ({
   };
 
   const redirectURL = (url: string) => {
-    history.push(url);
+    navigate(url);
   };
 
   // Database import logic

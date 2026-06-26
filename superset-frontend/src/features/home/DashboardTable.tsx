@@ -22,7 +22,7 @@ import { SupersetClient } from '@superset-ui/core';
 import { useFavoriteStatus, useListViewResource } from 'src/views/CRUD/hooks';
 import { Dashboard, DashboardTableProps, TableTab } from 'src/views/CRUD/types';
 import handleResourceExport from 'src/utils/export';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   getItem,
   LocalStorageKeys,
@@ -56,7 +56,7 @@ function DashboardTable({
   otherTabFilters,
   otherTabTitle,
 }: DashboardTableProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const defaultTab = getItem(
     LocalStorageKeys.HomepageDashboardFilter,
     TableTab.Other,
@@ -216,7 +216,7 @@ function DashboardTable({
                       'Yes',
                     )},value:!t))`
                   : '/dashboard/list/';
-              history.push(target);
+              navigate(target);
             },
           },
         ]}

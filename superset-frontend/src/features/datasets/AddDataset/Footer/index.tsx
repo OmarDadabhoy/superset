@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   Button,
   DropdownButton,
@@ -61,7 +61,7 @@ function Footer({
   hasColumns = false,
   datasets,
 }: FooterProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const theme = useTheme();
   const { createResource, state } = useSingleViewResource<
     Partial<DatasetObject>
@@ -87,7 +87,7 @@ function Footer({
       const logAction = createLogAction(datasetObject);
       logEvent(logAction, datasetObject);
     }
-    history.goBack();
+    navigate(-1);
   };
 
   const tooltipText = t('Select a database table.');
@@ -108,9 +108,9 @@ function Footer({
           logEvent(LOG_ACTIONS_DATASET_CREATION_SUCCESS, datasetObject);
           // When a dataset is created the response we get is its ID number
           if (createChart) {
-            history.push(`/chart/add/?dataset=${datasetObject.table_name}`);
+            navigate(`/chart/add/?dataset=${datasetObject.table_name}`);
           } else {
-            history.push('/tablemodelview/list/');
+            navigate('/tablemodelview/list/');
           }
         }
       });

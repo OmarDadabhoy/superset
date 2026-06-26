@@ -20,7 +20,7 @@ import 'src/public-path';
 
 import { lazy, Suspense, useEffect } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Global } from '@emotion/react';
 import { t } from '@apache-superset/core/translation';
 import { makeApi } from '@superset-ui/core';
@@ -118,9 +118,14 @@ const EmbeddedRoute = () => (
 
 const EmbeddedApp = () => (
   <Router basename={applicationRoot()}>
-    {/* todo (embedded) remove this line after uuids are deployed */}
-    <Route path="/dashboard/:idOrSlug/embedded/" component={EmbeddedRoute} />
-    <Route path="/embedded/:uuid/" component={EmbeddedRoute} />
+    <Routes>
+      {/* todo (embedded) remove this line after uuids are deployed */}
+      <Route
+        path="/dashboard/:idOrSlug/embedded/"
+        element={<EmbeddedRoute />}
+      />
+      <Route path="/embedded/:uuid/" element={<EmbeddedRoute />} />
+    </Routes>
   </Router>
 );
 

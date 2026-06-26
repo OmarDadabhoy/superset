@@ -55,7 +55,7 @@ import { safeStringify } from 'src/utils/safeStringify';
 import { extendedDayjs } from '@superset-ui/core/utils/dates';
 import type { Dispatch, Action, AnyAction } from 'redux';
 import type { ThunkAction, ThunkDispatch } from 'redux-thunk';
-import type { History } from 'history';
+import type { NavigateFunction } from 'react-router-dom';
 import type { ChartState } from 'src/explore/types';
 
 // Types for the Redux state
@@ -938,7 +938,7 @@ export function postChartFormData(
 
 export function redirectSQLLab(
   formData: QueryFormData | LatestQueryFormData,
-  history?: History,
+  navigate?: NavigateFunction | false,
 ): ChartThunkAction {
   return (dispatch: ChartThunkDispatch): void => {
     getChartDataRequest({
@@ -956,10 +956,9 @@ export function redirectSQLLab(
           datasourceKey: formData.datasource,
           sql: json.result[0].query,
         };
-        if (history) {
-          // Use two-argument form for history.push with state
-          history.push(redirectUrl, {
-            requestedQuery: payload,
+        if (navigate) {
+          navigate(redirectUrl, {
+            state: { requestedQuery: payload },
           });
         } else {
           SupersetClient.postForm(redirectUrl, {

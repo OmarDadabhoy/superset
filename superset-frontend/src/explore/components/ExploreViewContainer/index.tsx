@@ -47,7 +47,7 @@ import { t } from '@apache-superset/core/translation';
 import { logging } from '@apache-superset/core/utils';
 import { debounce, isEqual, isObjectLike, omit, pick } from 'lodash';
 import { Resizable } from 're-resizable';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Tooltip } from '@superset-ui/core/components';
 import { usePluginContext } from 'src/components';
 import { Global } from '@emotion/react';
@@ -172,11 +172,14 @@ const updateHistory = debounce(
     force,
     title,
     tabId,
-    history,
+    navigate: (
+      to: string,
+      options?: { replace: boolean; state: unknown },
+    ) => void,
   ) => {
     const payload = { ...formData };
     const chartId = formData.slice_id;
-    const params = new URLSearchParams(history.location.search);
+    const params = new URLSearchParams(window.location.search);
     const additionalParam = Object.fromEntries(params);
 
     if (chartId) {
@@ -217,7 +220,7 @@ const updateHistory = debounce(
         }
       }
       // avoid race condition in case user changes route before explore updates the url
-      if (history.location.pathname.startsWith('/explore')) {
+      if (window.location.pathname.startsWith('/explore')) {
         const url = mountExploreUrl(
           standalone ? URL_PARAMS.standalone.name : 'base',
           {
@@ -227,7 +230,7 @@ const updateHistory = debounce(
           force,
           false,
         );
-        history.replace(url, payload);
+        navigate(url, { replace: true, state: payload });
       }
     } catch (e) {
       logging.warn('Failed at altering browser history', e);
@@ -388,7 +391,7 @@ function ExploreViewContainer(props: ExploreViewContainerProps) {
     getSidebarWidths(LocalStorageKeys.DatasourceWidth),
   );
   const tabId = useTabId();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const theme = useTheme();
 
@@ -478,7 +481,7 @@ function ExploreViewContainer(props: ExploreViewContainerProps) {
         props.force,
         title,
         tabId,
-        history,
+        navigate,
       );
     },
     [
@@ -489,7 +492,7 @@ function ExploreViewContainer(props: ExploreViewContainerProps) {
       props.standalone,
       props.force,
       tabId,
-      history,
+      navigate,
     ],
   );
 

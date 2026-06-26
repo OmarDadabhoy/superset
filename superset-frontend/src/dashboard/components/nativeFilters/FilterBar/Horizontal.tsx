@@ -30,7 +30,7 @@ import { FilterBarOrientation, RootState } from 'src/dashboard/types';
 import { useChartLayoutItems } from 'src/dashboard/util/useChartLayoutItems';
 import { useChartIds } from 'src/dashboard/util/charts/useChartIds';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { removeDataMask, updateDataMask } from 'src/dataMask/actions';
 import {
   getRisonFilterParam,
@@ -121,7 +121,7 @@ const HorizontalFilterBar: FC<HorizontalBarProps> = ({
     state => state.dataMask,
   );
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
   const chartIds = useChartIds();
   const chartLayoutItems = useChartLayoutItems();
@@ -158,7 +158,7 @@ const HorizontalFilterBar: FC<HorizontalBarProps> = ({
       const remaining = currentFilters.filter(
         f => getUrlFilterIdentity(f) !== removeId,
       );
-      updateUrlWithUnmatchedFilters(remaining, history);
+      updateUrlWithUnmatchedFilters(remaining, navigate);
       setActiveUrlFilters(prev =>
         prev.filter(f => getUrlFilterIdentity(f.filter) !== removeId),
       );
@@ -175,7 +175,7 @@ const HorizontalFilterBar: FC<HorizontalBarProps> = ({
         );
       }
     },
-    [dispatch, history],
+    [dispatch, navigate],
   );
 
   const urlFiltersComponent = useMemo(() => {
