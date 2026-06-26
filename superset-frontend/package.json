@@ -59,6 +59,7 @@
     "lint-fix:all": "npx oxlint --config oxlint.json --fix",
     "lint:full": "npm run lint && npm run check:custom-rules",
     "check:custom-rules": "node scripts/check-custom-rules.js",
+    "check:vm2": "node scripts/check-vm2-absent.js",
     "check:storybook-coverage": "node scripts/check-storybook-coverage.js",
     "ensure-oxc": "echo 'OXC linter is ready' && npx oxlint --version",
     "lint-stats": "node ./scripts/oxlint-metrics-uploader.js",
@@ -386,6 +387,7 @@
     "npm": "^11.13.0"
   },
   "overrides": {
+    "vm2": "file:./scripts/stubs/vm2-stub",
     "uuid": "$uuid",
     "core-js": "^3.38.1",
     "puppeteer": "^22.4.1",

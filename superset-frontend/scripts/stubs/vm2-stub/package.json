@@ -1,0 +1,7 @@
+{
+  "name": "vm2",
+  "version": "0.0.0-removed",
+  "description": "Stub replacement for vm2 – the real package has known sandbox-escape CVEs (CVE-2023-37466, CVE-2023-37903) and is unmaintained. This stub satisfies transitive dependency resolution without shipping any vm2 code.",
+  "main": "index.js",
+  "license": "Apache-2.0"
+}
