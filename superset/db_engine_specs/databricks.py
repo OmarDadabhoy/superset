@@ -75,6 +75,12 @@ class DatabricksStringType(types.TypeDecorator):
         return process
 
 
+def _quote_databricks_identifier(name: str) -> str:
+    """Backtick-quote a Databricks identifier, escaping embedded backticks."""
+    escaped = name.replace("`", "``")
+    return f"`{escaped}`"
+
+
 def monkeypatch_dialect() -> None:
     """
     Monkeypatch dialect to correctly escape single quotes for Databricks.
@@ -102,6 +108,78 @@ def monkeypatch_dialect() -> None:
                 return super().literal_processor(dialect)
 
         HiveDialect.colspecs[types.String] = ContextAwareStringType
+
+    except ImportError:
+        pass
+
+
+def monkeypatch_databricks_dialect() -> None:
+    """
+    Monkeypatch DatabricksDialect to backtick-quote catalog/schema/table identifiers.
+
+    databricks-sqlalchemy<2.0 does not quote identifiers in metadata-discovery SQL
+    (SHOW TABLES, SHOW VIEWS, DESCRIBE TABLE). Names containing hyphens trigger
+    INVALID_IDENTIFIER errors because the hyphen is parsed as subtraction. The fixed
+    version (>=2.0) requires SQLAlchemy>=2.0, which is not yet compatible with Superset.
+    """
+    try:
+        from databricks.sqlalchemy.dialect import DatabricksDialect
+
+        def _patched_get_table_names(
+            self: Any,
+            connection: Any,
+            schema: str | None = None,
+            **kwargs: Any,
+        ) -> list[str]:
+            table_name_idx = 1
+            with self.get_connection_cursor(connection) as cur:
+                cat = _quote_databricks_identifier(self.catalog)
+                sch = _quote_databricks_identifier(schema or self.schema)
+                data = cur.execute(f"SHOW TABLES FROM {cat}.{sch}").fetchall()
+                return [row[table_name_idx] for row in data]
+
+        def _patched_get_view_names(
+            self: Any,
+            connection: Any,
+            schema: str | None = None,
+            **kwargs: Any,
+        ) -> list[str]:
+            view_name_idx = 1
+            with self.get_connection_cursor(connection) as cur:
+                cat = _quote_databricks_identifier(self.catalog)
+                sch = _quote_databricks_identifier(schema or self.schema)
+                data = cur.execute(f"SHOW VIEWS FROM {cat}.{sch}").fetchall()
+                return [row[view_name_idx] for row in data]
+
+        def _patched_has_table(
+            self: Any,
+            connection: Any,
+            table_name: str,
+            schema: str | None = None,
+            catalog: str | None = None,
+            **kwargs: Any,
+        ) -> bool:
+            from sqlalchemy.exc import DatabaseError
+
+            _schema = schema or self.schema
+            _catalog = catalog or self.catalog
+            cat = _quote_databricks_identifier(_catalog)
+            sch = _quote_databricks_identifier(_schema)
+            tbl = _quote_databricks_identifier(table_name)
+
+            try:
+                connection.execute(f"DESCRIBE TABLE {cat}.{sch}.{tbl}")
+                return True
+            except DatabaseError as e:
+                if "TABLE_OR_VIEW_NOT_FOUND" in str(
+                    e
+                ) or "Table or view not found" in str(e):
+                    return False
+                raise
+
+        DatabricksDialect.get_table_names = _patched_get_table_names
+        DatabricksDialect.get_view_names = _patched_get_view_names
+        DatabricksDialect.has_table = _patched_has_table
 
     except ImportError:
         pass
@@ -767,3 +845,4 @@ class DatabricksPythonConnectorEngineSpec(DatabricksDynamicBaseEngineSpec):
 
 # TODO: remove once we've upgraded to SQLAlchemy>=2.0 and databricks-sql-python>=3.x
 monkeypatch_dialect()
+monkeypatch_databricks_dialect()
