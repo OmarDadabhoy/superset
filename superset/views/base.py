@@ -505,7 +505,7 @@ def cached_common_bootstrap_data(  # pylint: disable=unused-argument
         auth_type not in (AUTH_OAUTH, AUTH_SAML)
     )
 
-    if auth_user_registration:
+    if auth_user_self_registration:
         frontend_config["AUTH_USER_REGISTRATION_ROLE"] = app.config[
             "AUTH_USER_REGISTRATION_ROLE"
         ]

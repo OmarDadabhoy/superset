@@ -137,6 +137,7 @@ def test_recaptcha_shown_for_non_federated_auth(
     assert payload["conf"]["RECAPTCHA_PUBLIC_KEY"] == "test-key"
 
 
+
 def test_self_registration_flag_in_bootstrap(
     app_context: None,
 ) -> None:
