@@ -291,3 +291,143 @@ def test_get_prequeries(mocker: MockerFixture) -> None:
         "USE CATALOG `evil`` USE CATALOG bad`",
         "USE SCHEMA `evil`` USE SCHEMA bad`",
     ]
+
+
+def test_quote_databricks_identifier() -> None:
+    """
+    Test that ``_quote_databricks_identifier`` backtick-quotes identifiers.
+    """
+    from superset.db_engine_specs.databricks import _quote_databricks_identifier
+
+    assert _quote_databricks_identifier("simple") == "`simple`"
+    assert _quote_databricks_identifier("my-staging-catalog") == "`my-staging-catalog`"
+    assert _quote_databricks_identifier("my-poc-schema") == "`my-poc-schema`"
+    assert _quote_databricks_identifier("has`backtick") == "`has``backtick`"
+    assert _quote_databricks_identifier("evil` DROP TABLE x") == "`evil`` DROP TABLE x`"
+
+
+def test_monkeypatch_databricks_dialect_get_table_names(mocker: MockerFixture) -> None:
+    """
+    Test that the monkeypatched ``get_table_names`` quotes hyphenated identifiers.
+    """
+    from databricks.sqlalchemy.dialect import DatabricksDialect
+
+    dialect = DatabricksDialect.__new__(DatabricksDialect)
+    dialect.catalog = "my-staging-catalog"
+    dialect.schema = "my-poc-schema"
+
+    mock_cursor = mocker.MagicMock()
+    mock_cursor.execute.return_value.fetchall.return_value = [
+        ("", "orders", False),
+        ("", "customers", False),
+    ]
+    mock_cursor.__enter__ = mocker.MagicMock(return_value=mock_cursor)
+    mock_cursor.__exit__ = mocker.MagicMock(return_value=False)
+
+    mocker.patch.object(dialect, "get_connection_cursor", return_value=mock_cursor)
+
+    connection = mocker.MagicMock()
+    result = dialect.get_table_names(connection)
+
+    mock_cursor.execute.assert_called_once_with(
+        "SHOW TABLES FROM `my-staging-catalog`.`my-poc-schema`"
+    )
+    assert result == ["orders", "customers"]
+
+
+def test_monkeypatch_databricks_dialect_get_view_names(mocker: MockerFixture) -> None:
+    """
+    Test that the monkeypatched ``get_view_names`` quotes hyphenated identifiers.
+    """
+    from databricks.sqlalchemy.dialect import DatabricksDialect
+
+    dialect = DatabricksDialect.__new__(DatabricksDialect)
+    dialect.catalog = "my-staging-catalog"
+    dialect.schema = "my-poc-schema"
+
+    mock_cursor = mocker.MagicMock()
+    mock_cursor.execute.return_value.fetchall.return_value = [
+        ("", "v_orders", False),
+    ]
+    mock_cursor.__enter__ = mocker.MagicMock(return_value=mock_cursor)
+    mock_cursor.__exit__ = mocker.MagicMock(return_value=False)
+
+    mocker.patch.object(dialect, "get_connection_cursor", return_value=mock_cursor)
+
+    connection = mocker.MagicMock()
+    result = dialect.get_view_names(connection)
+
+    mock_cursor.execute.assert_called_once_with(
+        "SHOW VIEWS FROM `my-staging-catalog`.`my-poc-schema`"
+    )
+    assert result == ["v_orders"]
+
+
+def test_monkeypatch_databricks_dialect_has_table(mocker: MockerFixture) -> None:
+    """
+    Test that the monkeypatched ``has_table`` quotes hyphenated identifiers.
+    """
+    from databricks.sqlalchemy.dialect import DatabricksDialect
+
+    dialect = DatabricksDialect.__new__(DatabricksDialect)
+    dialect.catalog = "my-staging-catalog"
+    dialect.schema = "my-poc-schema"
+
+    connection = mocker.MagicMock()
+
+    result = dialect.has_table(connection, "my-table")
+
+    connection.execute.assert_called_once_with(
+        "DESCRIBE TABLE `my-staging-catalog`.`my-poc-schema`.`my-table`"
+    )
+    assert result is True
+
+
+def test_monkeypatch_databricks_dialect_has_table_not_found(
+    mocker: MockerFixture,
+) -> None:
+    """
+    Test that the monkeypatched ``has_table`` returns False for missing tables.
+    """
+    from databricks.sqlalchemy.dialect import DatabricksDialect
+    from sqlalchemy.exc import DatabaseError
+
+    dialect = DatabricksDialect.__new__(DatabricksDialect)
+    dialect.catalog = "my-staging-catalog"
+    dialect.schema = "my-poc-schema"
+
+    connection = mocker.MagicMock()
+    connection.execute.side_effect = DatabaseError("TABLE_OR_VIEW_NOT_FOUND", {}, None)
+
+    result = dialect.has_table(connection, "nonexistent")
+    assert result is False
+
+
+def test_monkeypatch_databricks_dialect_schema_override(
+    mocker: MockerFixture,
+) -> None:
+    """
+    Test that the monkeypatched methods respect an explicit schema argument.
+    """
+    from databricks.sqlalchemy.dialect import DatabricksDialect
+
+    dialect = DatabricksDialect.__new__(DatabricksDialect)
+    dialect.catalog = "prod-catalog"
+    dialect.schema = "default"
+
+    mock_cursor = mocker.MagicMock()
+    mock_cursor.execute.return_value.fetchall.return_value = [
+        ("", "events", False),
+    ]
+    mock_cursor.__enter__ = mocker.MagicMock(return_value=mock_cursor)
+    mock_cursor.__exit__ = mocker.MagicMock(return_value=False)
+
+    mocker.patch.object(dialect, "get_connection_cursor", return_value=mock_cursor)
+
+    connection = mocker.MagicMock()
+    result = dialect.get_table_names(connection, schema="analytics-schema")
+
+    mock_cursor.execute.assert_called_once_with(
+        "SHOW TABLES FROM `prod-catalog`.`analytics-schema`"
+    )
+    assert result == ["events"]
