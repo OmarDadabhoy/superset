@@ -504,32 +504,7 @@ class Database(CoreDatabase, AuditMixinNullable, ImportExportMixin):  # pylint: 
                         source=source,
                         sqlalchemy_uri=sqlalchemy_uri,
                     )
-                    prequeries = self.db_engine_spec.get_prequeries(
-                        database=self,
-                        catalog=catalog,
-                        schema=schema,
-                    )
-                    if prequeries:
-                        # SQLAlchemy connect event: runs prequeries on every new
-                        # DBAPI connection (e.g. SET search_path for PostgreSQL).
-                        def run_prequeries(
-                            dbapi_connection: Any,
-                            connection_record: Any,  # pylint: disable=unused-argument
-                        ) -> None:
-                            cursor = dbapi_connection.cursor()
-                            try:
-                                for prequery in prequeries:
-                                    cursor.execute(prequery)
-                            finally:
-                                cursor.close()
-
-                        sqla.event.listen(engine, "connect", run_prequeries)
-                        try:
-                            yield engine
-                        finally:
-                            sqla.event.remove(engine, "connect", run_prequeries)
-                    else:
-                        yield engine
+                    yield engine
 
     def _get_sqla_engine(  # pylint: disable=too-many-locals  # noqa: C901
         self,
@@ -664,6 +639,18 @@ class Database(CoreDatabase, AuditMixinNullable, ImportExportMixin):  # pylint: 
         ) as engine:
             with check_for_oauth2(self):
                 with closing(engine.raw_connection()) as conn:
+                    prequeries = self.db_engine_spec.get_prequeries(
+                        database=self,
+                        catalog=catalog,
+                        schema=schema,
+                    )
+                    if prequeries:
+                        cursor = conn.cursor()
+                        try:
+                            for prequery in prequeries:
+                                cursor.execute(prequery)
+                        finally:
+                            cursor.close()
                     yield conn
 
     def get_default_catalog(self) -> str | None:
