@@ -109,7 +109,7 @@ export default function Login() {
   const authType: AuthType = bootstrapData.common.conf.AUTH_TYPE;
   const providers: Provider[] = bootstrapData.common.conf.AUTH_PROVIDERS;
   const authRegistration: boolean =
-    bootstrapData.common.conf.AUTH_USER_REGISTRATION;
+    bootstrapData.common.conf.AUTH_USER_SELF_REGISTRATION;
 
   // TODO: This is a temporary solution for showing login errors after form submission.
   // Should be replaced with proper SPA-style authentication (JSON API with error responses)

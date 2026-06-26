@@ -106,6 +106,7 @@ def test_recaptcha_not_shown_for_federated_auth(
 
     current_app.config["AUTH_TYPE"] = auth_type
     current_app.config["AUTH_USER_REGISTRATION"] = True
+    current_app.config["AUTH_USER_SELF_REGISTRATION"] = True
     current_app.config["AUTH_USER_REGISTRATION_ROLE"] = "Public"
     current_app.config.pop("RECAPTCHA_PUBLIC_KEY", None)
 
@@ -122,14 +123,49 @@ def test_recaptcha_shown_for_non_federated_auth(
     app_context: None,
     auth_type: int,
 ) -> None:
-    """Recaptcha should be shown for DB and LDAP auth types when registration is on."""
+    """Recaptcha shown for DB/LDAP when self-registration is on."""
     from flask import current_app
 
     current_app.config["AUTH_TYPE"] = auth_type
     current_app.config["AUTH_USER_REGISTRATION"] = True
+    current_app.config["AUTH_USER_SELF_REGISTRATION"] = True
     current_app.config["AUTH_USER_REGISTRATION_ROLE"] = "Public"
     current_app.config["RECAPTCHA_PUBLIC_KEY"] = "test-key"
 
     payload = _get_bootstrap()
 
     assert payload["conf"]["RECAPTCHA_PUBLIC_KEY"] == "test-key"
+
+
+def test_self_registration_flag_in_bootstrap(
+    app_context: None,
+) -> None:
+    """AUTH_USER_SELF_REGISTRATION flag is passed through to frontend config."""
+    from flask import current_app
+
+    current_app.config["AUTH_TYPE"] = AUTH_DB
+    current_app.config["AUTH_USER_REGISTRATION"] = True
+    current_app.config["AUTH_USER_REGISTRATION_ROLE"] = "Public"
+    current_app.config["AUTH_USER_SELF_REGISTRATION"] = False
+
+    payload = _get_bootstrap()
+
+    assert payload["conf"]["AUTH_USER_REGISTRATION"] is True
+    assert payload["conf"]["AUTH_USER_SELF_REGISTRATION"] is False
+
+
+def test_recaptcha_not_shown_when_self_registration_disabled(
+    app_context: None,
+) -> None:
+    """Recaptcha should not be shown when self-registration is disabled."""
+    from flask import current_app
+
+    current_app.config["AUTH_TYPE"] = AUTH_DB
+    current_app.config["AUTH_USER_REGISTRATION"] = True
+    current_app.config["AUTH_USER_SELF_REGISTRATION"] = False
+    current_app.config["AUTH_USER_REGISTRATION_ROLE"] = "Public"
+    current_app.config["RECAPTCHA_PUBLIC_KEY"] = "test-key"
+
+    payload = _get_bootstrap()
+
+    assert "RECAPTCHA_PUBLIC_KEY" not in payload["conf"]
