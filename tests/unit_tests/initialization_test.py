@@ -190,6 +190,38 @@ class TestSupersetAppInitializer:
             == "postgresql://realuser:realpass@realhost:5432/realdb"
         )
 
+    def test_setup_db_missing_driver_exits_with_message(self) -> None:
+        """setup_db surfaces an actionable message when the DB driver is missing."""
+        mock_app = MagicMock()
+        mock_app.app_context.return_value.__enter__ = MagicMock()
+        mock_app.app_context.return_value.__exit__ = MagicMock(return_value=False)
+
+        with patch("superset.initialization.db") as mock_db:
+            mock_db.init_app = MagicMock()
+            # Accessing db.engine triggers the driver import
+            type(mock_db).engine = PropertyMock(
+                side_effect=ModuleNotFoundError("No module named 'psycopg2'")
+            )
+
+            with patch.object(
+                SupersetAppInitializer,
+                "database_uri",
+                new_callable=PropertyMock,
+            ) as mock_uri:
+                mock_uri.return_value = "postgresql://user:pass@localhost:5432/superset"
+                app_initializer = SupersetAppInitializer(mock_app)
+
+                with (
+                    patch("builtins.print") as mock_print,
+                    patch("sys.exit") as mock_exit,
+                ):
+                    app_initializer.setup_db()
+
+                mock_exit.assert_called_once_with(1)
+                output = mock_print.call_args[0][0]
+                assert "Missing database driver" in output
+                assert "psycopg2-binary" in output
+
     def test_check_and_warn_database_connection_masks_password(self) -> None:
         mock_app = MagicMock()
         mock_app.app_context.return_value.__enter__.return_value = MagicMock()

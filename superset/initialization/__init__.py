@@ -1054,7 +1054,32 @@ class SupersetAppInitializer:  # pylint: disable=too-many-public-methods
         db.init_app(self.superset_app)
 
         with self.superset_app.app_context():
-            pessimistic_connection_handling(db.engine)
+            try:
+                pessimistic_connection_handling(db.engine)
+            except ModuleNotFoundError as ex:
+                module = ex.name or str(ex)
+                db_uri = self.database_uri
+                driver_hint = ""
+                if db_uri:
+                    try:
+                        backend = make_url_safe(db_uri).get_backend_name()
+                    except Exception:  # noqa: BLE001
+                        backend = None
+                    if backend == "postgresql":
+                        driver_hint = (
+                            "Install it with: pip install psycopg2-binary\n"
+                            "Or add psycopg2-binary to your requirements file.\n"
+                            "Helm users: set supersetNode.connections.db_type "
+                            "and ensure the driver is included in the image "
+                            "(e.g. `pip install 'apache-superset[postgres]'`)."
+                        )
+                print(
+                    f"{Fore.RED}ERROR: Missing database driver — "
+                    f"cannot import '{module}'.\n"
+                    f"{driver_hint or 'Install the driver for your metadata database.'}"
+                    f"{Style.RESET_ALL}"
+                )
+                sys.exit(1)
 
         migrate.init_app(self.superset_app, db=db, directory=APP_DIR + "/migrations")
 
