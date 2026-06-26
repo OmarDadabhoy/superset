@@ -16,13 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-// A safe alternative to JS's eval
+/**
+ * @deprecated JS-based controls (tooltips, onclick, data mutators) are
+ * deprecated and gated behind the ENABLE_JAVASCRIPT_CONTROLS feature flag
+ * (default OFF). This module uses Node.js built-in `vm` (NOT the npm `vm2`
+ * package) but arbitrary code evaluation remains a security concern.
+ * Prefer declarative configuration for new visualisations.
+ */
 import vm, { Context, RunningScriptOptions } from 'vm';
 import _ from 'underscore';
 /* eslint-disable-next-line no-restricted-syntax */
 import * as d3array from 'd3-array';
 /* eslint-disable-next-line no-restricted-syntax */
 import * as colors from './colors';
+import { FeatureFlag, isFeatureEnabled } from '@superset-ui/core';
 
 // Objects exposed here should be treated like a public API
 // if `underscore` had backwards incompatible changes in a future release, we'd
@@ -47,6 +54,10 @@ export default function sandboxedEval(
   context?: Context,
   opts?: RunningScriptOptions | string,
 ) {
+  if (!isFeatureEnabled(FeatureFlag.EnableJavascriptControls)) {
+    return () => '[JavaScript controls are disabled]';
+  }
+
   const sandbox: Context = {};
   const resultKey = `SAFE_EVAL_${Math.floor(Math.random() * 1000000)}`;
   sandbox[resultKey] = {};
