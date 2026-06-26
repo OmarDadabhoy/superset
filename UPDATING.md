@@ -24,6 +24,10 @@ assists people when migrating to a new version.
 
 ## Next
 
+### Public self-registration decoupled from auth-provider user sync
+
+A new configuration key `AUTH_USER_SELF_REGISTRATION` (default `False`) controls whether the public self-registration UI (the Register button on the login page and the `/register/` endpoint) is exposed. Previously, setting `AUTH_USER_REGISTRATION = True` — which is required for LDAP/OAuth/SAML user provisioning — also exposed a public sign-up surface. Operators who relied on `AUTH_USER_REGISTRATION` to show the public registration form must also set `AUTH_USER_SELF_REGISTRATION = True` in `superset_config.py` to preserve the previous behavior.
+
 ### Guest-token RLS rules reject unknown fields
 
 The `rls` rules passed to `POST /api/v1/security/guest_token/` are now validated strictly: a rule may only contain `dataset` and `clause`. Previously unknown fields were silently dropped, so a mistyped or legacy scope key (most commonly `datasource` instead of `dataset`) produced a rule with no `dataset`, which is treated as a *global* rule applied to every dataset the embedded resource can reach. Such a request now returns HTTP 400 identifying the offending field instead of issuing a token with an unintended global rule. Integrators that were sending extra fields in RLS rules must remove them; valid dataset-scoped (`{"dataset": 41, "clause": "..."}`) and global (`{"clause": "..."}`) rules are unaffected.

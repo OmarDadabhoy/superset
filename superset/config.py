@@ -463,6 +463,13 @@ AUTH_TYPE = AUTH_DB
 # The default user self registration role
 # AUTH_USER_REGISTRATION_ROLE = "Public"
 
+# Controls whether the public self-registration UI (register button on the
+# login page, /register/ endpoint) is exposed. When False (default), the
+# registration surface is hidden even if AUTH_USER_REGISTRATION is True.
+# This lets operators enable AUTH_USER_REGISTRATION for LDAP/OAuth user
+# provisioning without opening a public sign-up path.
+AUTH_USER_SELF_REGISTRATION: bool = False
+
 # When using LDAP Auth, setup the LDAP server
 # AUTH_LDAP_SERVER = "ldap://ldapserver.new"
 

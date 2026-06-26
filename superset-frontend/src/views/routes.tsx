@@ -245,8 +245,8 @@ if (isFeatureEnabled(FeatureFlag.TaggingSystem)) {
 }
 
 const user = getBootstrapData()?.user;
-const authRegistrationEnabled =
-  getBootstrapData()?.common.conf.AUTH_USER_REGISTRATION;
+const authSelfRegistrationEnabled =
+  getBootstrapData()?.common.conf.AUTH_USER_SELF_REGISTRATION;
 const isAdmin = isUserAdmin(user);
 
 if (isAdmin) {
@@ -261,7 +261,7 @@ if (isAdmin) {
   }
 }
 
-if (authRegistrationEnabled) {
+if (authSelfRegistrationEnabled) {
   routes.push({ path: RoutePaths.REGISTRATIONS, Component: UserRegistrations });
 }
 

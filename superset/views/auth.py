@@ -18,7 +18,7 @@
 import logging
 from typing import Optional
 
-from flask import g, redirect
+from flask import abort, current_app, g, redirect
 from flask_appbuilder import expose
 from flask_appbuilder.const import LOGMSG_ERR_SEC_NO_REGISTER_HASH
 from flask_appbuilder.security.decorators import no_cache
@@ -53,6 +53,8 @@ class SupersetRegisterUserView(BaseSupersetView):
     @expose("/")
     @no_cache
     def register(self) -> WerkzeugResponse:
+        if not current_app.config.get("AUTH_USER_SELF_REGISTRATION", False):
+            abort(404)
         return super().render_app_template()
 
     @expose("/activation/<string:activation_hash>")

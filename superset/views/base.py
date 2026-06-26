@@ -498,8 +498,10 @@ def cached_common_bootstrap_data(  # pylint: disable=unused-argument
         language = app.config.get("BABEL_DEFAULT_LOCALE", "en")
     auth_type = app.config["AUTH_TYPE"]
     auth_user_registration = app.config["AUTH_USER_REGISTRATION"]
+    auth_user_self_registration = app.config.get("AUTH_USER_SELF_REGISTRATION", False)
     frontend_config["AUTH_USER_REGISTRATION"] = auth_user_registration
-    should_show_recaptcha = auth_user_registration and (
+    frontend_config["AUTH_USER_SELF_REGISTRATION"] = auth_user_self_registration
+    should_show_recaptcha = auth_user_self_registration and (
         auth_type not in (AUTH_OAUTH, AUTH_SAML)
     )
 
